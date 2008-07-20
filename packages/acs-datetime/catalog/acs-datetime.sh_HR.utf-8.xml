@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="sh_HR" charset="utf-8">
+
+  <msg key="Date">Datum</msg>
+  <msg key="Date_as">Datum kao</msg>
+  <msg key="Day">Dan</msg>
+  <msg key="Day_of_Week">Dan u sedmici</msg>
+  <msg key="is">je</msg>
+  <msg key="Items_from">Stavka od</msg>
+  <msg key="List">Lista</msg>
+  <msg key="Month">Mesec</msg>
+  <msg key="to">do</msg>
+  <msg key="Today">Danas</msg>
+  <msg key="Week">Sedmica</msg>
+</message_catalog>

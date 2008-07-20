@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="acs-datetime" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="All_day">All day</msg>
+  <msg key="back_one_day">back one day</msg>
+  <msg key="Date">Date</msg>
+  <msg key="Date_as">Date as</msg>
+  <msg key="Date_as_YYYYMMDD">Date as YYYYMMDD</msg>
+  <msg key="Day">Day</msg>
+  <msg key="Day_of_Week">Day of Week</msg>
+  <msg key="days_of_week">Sunday Monday Tuesday Wednesday Thursday Friday Saturday</msg>
+  <description key="days_of_week">Note to programmers: In Dutch [nl_NL] the days of week do not start with capital letters, unlike English. Keep in mind when using them at  start of sentences.
+
+-- Daniël Mantione</description>
+
+  <msg key="forward_one_day">forward one day</msg>
+  <msg key="is">is</msg>
+  <msg key="Items_from">Items from</msg>
+  <msg key="Items_until">Items until @pretty_end_date@</msg>
+  <msg key="List">List</msg>
+  <description key="List">Description wanted from programmers. For nl_NL I need to know if I need to translate &quot;List&quot; as &quot;a list of something&quot; or as &quot;show me something&quot;.
+
+-- Daniël Mantione</description>
+
+  <msg key="lt_Width_must_be_">Width must be between 1 and 12</msg>
+  <description key="lt_Width_must_be_">Does anybody know the context?
+
+--Anja Wicht</description>
+
+  <msg key="Month">Month</msg>
+  <msg key="short_days_of_week">S M T W T F S</msg>
+  <msg key="to">to</msg>
+  <msg key="Today">Today</msg>
+  <msg key="view_calendar_day">Calendar Day View</msg>
+  <msg key="view_calendar_list">Calendar List View</msg>
+  <msg key="view_calendar_month">Calendar Month View</msg>
+  <msg key="view_calendar_week">Calendar Week View</msg>
+  <msg key="Week">Week</msg>
+  <msg key="Year">Year</msg>
+</message_catalog>

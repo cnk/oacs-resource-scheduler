@@ -1,0 +1,13 @@
+General:
+
+   * Define period for all day event
+   * What is never end?
+   * Need more details on reseve-confirm 
+       - Display the repeating (if applicable) info
+   * Permission problem (done)
+   
+
+Equipment:
+
+1. Repeating Events don't work
+2. 

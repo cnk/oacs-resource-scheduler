@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="pl_PL" charset="utf-8">
+
+  <msg key="All_day">Cały dzień</msg>
+  <msg key="back_one_day">dzień wstecz</msg>
+  <msg key="Date">Data</msg>
+  <msg key="Date_as">Data jako</msg>
+  <msg key="Date_as_YYYYMMDD">Data w formacie RRRRMMDD</msg>
+  <msg key="Day">Dzień</msg>
+  <msg key="Day_of_Week">Dzień Tygodnia</msg>
+  <msg key="days_of_week">niedziela poniedziałek wtorek środa czwartek piątek sobota</msg>
+  <msg key="forward_one_day">dzień naprzód</msg>
+  <msg key="is">jest</msg>
+  <msg key="Items_from">Terminy od</msg>
+  <msg key="Items_until">Terminy do @pretty_end_date@</msg>
+  <msg key="List">Lista</msg>
+  <msg key="lt_Width_must_be_">Szerokość musi być między 1 a 12</msg>
+  <msg key="Month">Miesiąc</msg>
+  <msg key="short_days_of_week">N P W Ś C P S</msg>
+  <msg key="to">do</msg>
+  <msg key="Today">Dziś</msg>
+  <msg key="view_calendar_day">Kalendarz Układ Dzienny</msg>
+  <msg key="view_calendar_list">Kalendarz - Układ Listy</msg>
+  <msg key="view_calendar_month">Kalendarz Układ Miesięczny</msg>
+  <msg key="view_calendar_week">Kalendarz Układ Tygodniowy</msg>
+  <msg key="Week">Tydzień</msg>
+  <msg key="Year">Rok</msg>
+</message_catalog>

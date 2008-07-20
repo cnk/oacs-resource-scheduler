@@ -1,0 +1,31 @@
+ad_page_contract {
+    
+    Output an item as ics for Outlook
+    The expected URL is <event_id>.ics
+
+    @author Ben Adida (ben@openforce)
+    @creation-date June 20, 2002
+    @cvs-id $Id: index.vuh,v 1.3 2003/07/21 19:21:36 dirkg Exp $
+} {
+    {all_occurences_p 0}
+}
+
+set path [ad_conn path_info]
+
+# Match the path
+if {![regexp {([0-9]*)\.ics} $path all event_id]} {
+    ad_return_error "Outlook Error" "Event ID must be an integer."
+    ad_script_abort
+}
+
+ad_require_permission $event_id read 
+
+### Log Download
+ctrl::cal::event::log_download -event_id $event_id
+
+set ics_data [ctrl_calendar::vcalendar::format_item -cal_event_id $event_id]
+doc_return 200 application/x-msoutlook $ics_data
+return
+
+#set ics_stuff [calendar::outlook::format_item -cal_item_id $cal_item_id -all_occurences_p $all_occurences_p]
+

@@ -1,0 +1,1 @@
+drop table inst_subsite_pers_res_intrsts;

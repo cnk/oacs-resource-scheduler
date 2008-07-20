@@ -1,0 +1,54 @@
+The semantics are as follows:
+	If a subsite has a subsite_for rel:
+			1 - the root groups of that subsite are the direct children
+					of the party(s) that the subsite is(are) for (if such
+					children do not exist, i.e. the subsite is for a
+					user, then there are no root departments --
+					might want to rework this so that root departments
+					are those the person is a direct member or indirect
+					member of)
+			2 - the only personnel displayed anywhere on that subsite are
+					those with direct membership in a 'subsite-root-group'
+			3 - if a department is mentioned that is not a descendant
+					of a subsite-root, then appropriate text must appear
+					before the name of the group to help identify it's
+					actual context (i.e. print the type-of or 'path' to the
+					group).  Furthermore, if the group is linked,
+					that link should go to a subsite that the group
+					does belong to -- preferrably a subsite that has
+					no 'subsite_for' relationship in acs_rels.
+	Else
+			1 - the root groups are those with a null parent_group_id
+					int inst_groups
+			2 - all personnel may show up anywhere on the subsite
+
+PROBLEMS (still):
+This does not address the problem of permissioning (which may be intractable
+since ea. object can only have one context_id) or the difficulties this
+design causes when it comes to admministering a subsite (in some cases it
+will be necessary to ensure 'by hand' that members of a certain sub-tree
+are always direct members of a particular group, i.e. as seen in OBGYN and
+Pediatrics).
+
+The fix that migh make it easier to administer membership would be
+(for example) to make the membership filter just require that
+personnel be either indirect or direct members of a root-group
+but allow root-groups to be non-transitively (WRT group membership)
+attached to a subsite (so membership in those groups will not
+automatically imply membership in the subsite).
+
+An elegant fix for permissioning is still a long way (never?) off though,
+due to the nature of objects only being allowed to exist in a single
+context.
+
+PAGES THAT HAVE SUBSITE ISSUES:
+Any page that uses 'institution/www/groups/tree' will have subsite issues.
+(groups/index and groups/detail both use it).  Also, personnel/detail
+may have problems as will any place that wants to make a reference
+to a department's URL, since the choice has to be made: does the user
+expect to see the groups information within the subsite, or all
+information about the group?  Perhaps if the group exists within the
+subsite, it should be linked to within the subsite.  If it is not within
+the subsite however, it should link to the nearest subsite that does
+not restrict they view of the department (this has been placed into
+the semantics above, though it has not yet been implemented).

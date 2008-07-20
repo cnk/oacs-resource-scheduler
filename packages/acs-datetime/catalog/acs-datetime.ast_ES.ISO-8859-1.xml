@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="acs-datetime" locale="ast_ES" charset="ISO-8859-1">
+
+  <msg key="Date">Fecha</msg>
+  <msg key="Date_as">Fecha en</msg>
+  <msg key="Date_as_YYYYMMDD">Fecha en DDMMYYYY</msg>
+  <msg key="Day">Día</msg>
+  <msg key="Day_of_Week">Día de la Selmana</msg>
+  <msg key="is">ye</msg>
+  <msg key="Items_from">Items de</msg>
+  <msg key="List">Llistáu</msg>
+  <msg key="Month">Mes</msg>
+  <msg key="to">pa</msg>
+  <msg key="Today">Hoi</msg>
+  <msg key="Week">Selmana</msg>
+</message_catalog>

@@ -1,0 +1,19 @@
+<?xml version=1.0?>
+  <queryset>
+	 
+ 
+<!-- START ctrl::cal::update.update -->
+<fullquery name="ctrl::cal::update.update">
+  <querytext>
+   update ctrl_calendars set      cal_id=:cal_id ,
+     cal_name=:cal_name ,
+     description=:description ,
+     owner_id=:owner_id ,
+     object_id=:object_id 
+ where cal_id=:cal_id
+  </querytext>
+</fullquery>
+<!-- END ctrl::cal::update.update -->
+ 
+ </queryset>
+

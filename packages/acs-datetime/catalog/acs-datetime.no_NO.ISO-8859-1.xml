@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="acs-datetime" locale="no_NO" charset="ISO-8859-1">
+
+  <msg key="All_day">Hele dagen</msg>
+  <msg key="back_one_day">tilbake en dag</msg>
+  <msg key="Date">Dato</msg>
+  <msg key="Date_as">Datoformat</msg>
+  <msg key="Date_as_YYYYMMDD">Dato som ÅÅÅÅMMDD</msg>
+  <msg key="Day">Dag</msg>
+  <msg key="Day_of_Week">Ukedag</msg>
+  <msg key="days_of_week">søndag mandag tirsdag onsdag torsdag fredag lørdag</msg>
+  <msg key="forward_one_day">en dag fram</msg>
+  <msg key="is">er</msg>
+  <msg key="Items_from">Innhhold fra</msg>
+  <msg key="Items_until">Innlegg før @pretty_end_date@</msg>
+  <msg key="List">Liste</msg>
+  <msg key="lt_Width_must_be_">Bredde må være mellom 1 og 12</msg>
+  <msg key="Month">Måned</msg>
+  <msg key="short_days_of_week">S M T O T F L S</msg>
+  <msg key="to">til</msg>
+  <msg key="Today">Idag</msg>
+  <msg key="Week">Uke</msg>
+</message_catalog>

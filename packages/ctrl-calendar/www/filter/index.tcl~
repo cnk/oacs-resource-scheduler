@@ -1,0 +1,24 @@
+# /packages/ctrl-calendar/www/admin/filter/index.tcl
+
+ad_page_contract {
+    Calendar filter page
+    @author kellie@ctrl.ucla.edu
+    @creation-date 07/26/2007
+    @cvs-id $Id$
+} {
+    cal_id:naturalnum,notnull
+}
+
+set user_id [ad_conn user_id]
+set package_id [ad_conn package_id]
+if {[permission::permission_p -party_id $user_id -object_id $package_id -privilege admin]} {
+    set filter ""
+} else {
+    set filter " and o.creation_user = $user_id"
+}
+
+db_multirow -extend {view_link edit_link delete_link} get_cal_filters get_cal_filters {} {
+    set view_link "<a href=filter-view?[export_url_vars cal_filter_id cal_id]>View</a>"
+    set edit_link "<a href=filter-ae?[export_url_vars cal_filter_id cal_id]>Edit</a>"
+    set delete_link "<a href=filter-delete?[export_url_vars cal_filter_id cal_id]>Delete</a>"
+}

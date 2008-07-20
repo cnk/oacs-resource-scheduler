@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="ko_KR" charset="utf-8">
+
+  <msg key="All_day">하루종일</msg>
+  <msg key="back_one_day">하루 전으로</msg>
+  <msg key="Date">월일</msg>
+  <msg key="Date_as">월일</msg>
+  <msg key="Date_as_YYYYMMDD">YYYYMMDD형태의 년월일</msg>
+  <msg key="Day">요일</msg>
+  <msg key="Day_of_Week">요일</msg>
+  <msg key="days_of_week">일요일 월요일 화요일 수요일 목요일 금요일 토요일</msg>
+  <msg key="forward_one_day">하루 후로</msg>
+  <msg key="is">은(는)</msg>
+  <msg key="Items_from">로(으로)부터의 항목</msg>
+  <msg key="Items_until">@pretty_end_date@ 까지의 항목</msg>
+  <msg key="List">목록</msg>
+  <msg key="lt_Width_must_be_">폭은 1에서 12사이여야 합니다</msg>
+  <msg key="Month">월</msg>
+  <msg key="short_days_of_week">일 월 화 수 목 금 토</msg>
+  <msg key="to">까지</msg>
+  <msg key="Today">오늘</msg>
+  <msg key="Week">일주일</msg>
+</message_catalog>

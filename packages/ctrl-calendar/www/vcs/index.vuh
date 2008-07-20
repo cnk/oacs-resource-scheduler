@@ -1,0 +1,32 @@
+ad_page_contract {
+    
+    Output an event in vCalendar format
+    The expected URL is <event_id>.vcs
+
+    @author Sung Hong (shhong@mednet.ucla.edu)
+    @creation-date March 16, 2006 
+    @cvs-id $Id: 
+} {
+    {all_occurences_p 0}
+}
+
+set path [ad_conn path_info]
+
+if {![regexp {([0-9]*)\.vcs} $path all event_id]} {
+    ad_return_error "vCalendar Error" "Event ID must be an integer."
+    ad_script_abort
+}
+
+set user_id [ad_conn user_id]
+if {$user_id == "0"} {
+    set return_url "[ad_conn package_url]vcs/$path"
+}
+
+ad_require_permission $event_id read 
+
+### Log Download
+ctrl::cal::event::log_download -event_id $event_id
+
+set vcs_data [ctrl_calendar::outlook::format_item -cal_event_id $event_id]
+doc_return 200 application/x-msoutlook $vcs_data
+return

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="acs-datetime" package_version="5.2.2" locale="nl_ZA" charset="ISO-8859-1">
+
+  <msg key="All_day">Gehele dag</msg>
+  <msg key="back_one_day">een dag terug</msg>
+  <msg key="Date">Datum</msg>
+  <msg key="Date_as">Datum as</msg>
+  <msg key="Date_as_YYYYMMDD">Datum (JJJJMMDD)</msg>
+  <msg key="Day">Dag</msg>
+  <msg key="Day_of_Week">weekdag</msg>
+  <msg key="days_of_week">Sondag Maandag Dinsdag Woensdag Donderdag Vrydag Saterdag</msg>
+  <msg key="forward_one_day">een dag verder</msg>
+  <msg key="is">is dit</msg>
+  <msg key="Items_from">Planning van </msg>
+  <msg key="Items_until">gebeurtenisse tot @pretty_end_date@ </msg>
+  <msg key="List">Lys</msg>
+  <msg key="lt_Width_must_be_">Breedte moet lê tusse 1 en 12</msg>
+  <msg key="Month">Maand</msg>
+  <msg key="short_days_of_week">Z M D W D V Z </msg>
+  <msg key="to">tot</msg>
+  <msg key="Today">Vandaag</msg>
+  <msg key="view_calendar_day">Kalender per dag</msg>
+  <msg key="view_calendar_list">Kalender in lysvorm</msg>
+  <msg key="view_calendar_month">Kalender per maand</msg>
+  <msg key="view_calendar_week">Kalender per week</msg>
+  <msg key="Week">Week</msg>
+  <msg key="Year">Jaar</msg>
+</message_catalog>

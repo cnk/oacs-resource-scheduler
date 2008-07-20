@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="fi_FI" charset="utf-8">
+
+  <msg key="Date">Päiväys</msg>
+  <msg key="Date_as">Päiväyksen muoto:</msg>
+  <msg key="Date_as_YYYYMMDD">Päiväys muodossa VVVVKKPP</msg>
+  <msg key="Day">Päivä</msg>
+  <msg key="Day_of_Week">Viikonpäivä</msg>
+  <msg key="is">on</msg>
+  <msg key="Items_from">Tapahtumat välillä</msg>
+  <msg key="List">Lista</msg>
+  <msg key="Month">Kuukausi</msg>
+  <msg key="to">-</msg>
+  <msg key="Today">Tänään</msg>
+  <msg key="Week">Viikko</msg>
+</message_catalog>

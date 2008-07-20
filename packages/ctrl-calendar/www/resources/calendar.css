@@ -1,0 +1,329 @@
+/*  Month View  ---------------------------------------------------*/
+.cal-month-header-blue {
+  background: #A5D8F3 url(/resources/ctrl-calendar/images/gradient-blue.gif) repeat-x top left;
+  vertical-align: bottom;
+}
+
+.cal-month-header-violet {
+  background: #BECEF7 url(/resources/ctrl-calendar/images/gradient-violet.gif) repeat-x top left;
+}
+
+
+.cal-month-day {
+  background: #ffffff;
+  vertical-align: top;
+  height: 70px;
+  width:70px; /* this width will keep events from compressing the days without events */
+}
+
+
+.cal-month-day:hover {
+  background: #cccccc;
+  cursor: pointer;
+}
+
+.cal-month-today {
+  font-weight: bold;
+  background-color: #EAF2FF;
+  text-align: left;
+  vertical-align: top;
+
+}
+.cal-month-today:hover {
+  background: #cccccc;
+  cursor: pointer;
+}
+
+.cal-month-day-inactive {
+  background: #E6E6E6;
+  vertical-align: top;
+  height: 70px;
+}
+
+.cal-month-event {
+  text-align: left;
+  font-weight: normal;
+  overflow: hidden;
+  border:1px #ffffff solid;
+  -moz-opacity:.9;
+  filter:alpha(opacity=90);
+}
+
+.cal-month-event a {
+  font-weight: normal;
+}
+
+.cal-month-table {
+  border: 0px none;
+  margin: 0px;
+  padding: 0px;
+  border-top: 1px #89A2B3 solid;
+  border-left: 1px #89A2B3 solid;
+}
+
+.cal-month-table td {
+  border-right: 1px #89A2B3 solid;
+  border-bottom: 1px #89A2B3 solid;
+  padding: 2px;
+}
+
+
+/* END Month View  ---------------------------------------------------*/
+
+.cal-input-field {
+  color: #000000;
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid #99CCFF;
+  background-color: #FFFFFF;
+}
+
+
+/* at-a-glance ---------------------------------------------------*/
+/* This is the small cal that appears in month/week/day views on the left hand side*/
+
+.at-a-glance-head {
+    white-space: nowrap;
+    margin-right: 5px;
+}
+
+.at-a-glance-head-current_view {
+  text-align: center;
+}
+
+#at-a-glance td {
+    width: 25px;
+  height:25px;
+    border-right: 1px solid #B8B8B8;
+  border-bottom: 1px solid #B8B8B8;
+  background-color: #ffffff;
+  font-size: .9em;
+}
+
+#at-a-glance td.months {
+  width: 80px;
+}
+
+#at-a-glance td.selected {
+  background-color: #EAF2FF;
+}
+
+#at-a-glance tr.days td {
+  text-align: center;
+  border: 0px;
+}
+
+#at-a-glance td.inactive {
+  background-color: #E6E6E6;
+}
+
+#at-a-glance a {
+  text-decoration:none;
+  padding-left:3px;
+}
+
+#at-a-glance td.active {
+  background-color: #ffffff;
+}
+
+#at-a-glance td.active:hover {
+  background-color: #cccccc;
+  text-align: left;
+}
+
+#at-a-glance td.today {
+  font-weight: bold;
+  background-color: #EAF2FF;
+}
+/* END at-a-glance ---------------------------------------------------*/
+
+
+.cal-text-grey-sml {
+  font-size: .75em;
+  color: #666666;
+  font-weight: normal;
+
+}
+
+/* cal-item-view, cal-item-new ---------------------------------------------------*/
+
+#viewadp-mini-calendar {
+         width: 240px;
+         float: left;
+}
+
+#events {
+         /* margin-left: 250px; */
+         margin-bottom: 0px;
+}
+
+
+/* Navigation at the bottom of Month/Week views */
+
+.calendar-back-forward {
+  padding-top:6px;
+}
+
+.calendar-back-forward img {
+  vertical-align:middle;
+  padding-bottom:2px;
+  border:0px;
+}
+/* /Navigation at the bottom of Month/Week views */
+
+
+
+/*  Week/Day View Common Styles  ---------------------------------------------------*/
+#cal-table-day, #cal-table-week  {
+  background-color:#89A2B3;
+}
+
+.day-time-1 {
+  border:1px #ffffff solid;
+  background-color:#D8E0E6;
+  height:43px;
+  vertical-align: middle;
+  text-align: center;
+}
+.day-time-1 p, .day-time-2 p {
+  margin-top:6px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.day-time-2 {
+  border:1px #ffffff solid;
+  background-color:#e8edf1;
+  height:43px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/*  Week View  ---------------------------------------------------*/
+
+.week-event-1 {
+  background-color:#E5E5E5;
+  vertical-align:top;
+}
+
+.week-event-2 {
+  background-color:#ffffff;
+  vertical-align:top;
+}
+
+.week-entry-item p {
+  margin:3px;
+}
+
+.week-entry-box {
+  position:relative;
+  width:100%;
+  top:0px;
+  z-index:3;
+}
+
+.week-entry-box a {
+  text-decoration:none;
+  color:#333333;
+}
+
+
+.week-entry-item {
+  width:65px;
+  border:1px #ffffff solid;
+  height:28px;
+  -moz-opacity:.9;
+  filter:alpha(opacity=90);
+  overflow:hidden;
+  cursor: hand;
+  right:0px;
+}
+
+.cal-week-day-title td {
+  text-align:center;
+}
+
+/*  END Week View  ---------------------------------------------------*/
+
+/*  Day View  ---------------------------------------------------*/
+.day-event-1 {
+  border:0px #ffffff solid;
+  background-color:#E5E5E5;
+}
+
+.day-event-2 {
+  border:0px #ffffff solid;
+  background-color:#ffffff;
+}
+
+#day-entry-box {
+  position:relative;
+  width:100%;
+  top:0px;
+}
+
+.day-entry-item {
+  position:absolute;
+  width:65px;
+  height:43px;
+    overflow: hidden;
+  border:1px #ffffff solid;
+  -moz-opacity:.9;
+  filter:alpha(opacity=90);
+    font-size: 90%;
+}
+
+.day-entry-item p {
+  margin:3px;
+}
+
+/*  END Day View  ---------------------------------------------------*/
+
+/* view-list-display ---------------------------------------------------*/
+
+.cal-table-list {
+  padding:5px;
+}
+
+.cal-table-list td {
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:5px;
+  padding-right:5px;
+}
+
+.cal-table-list thead {
+  background-color:#547083;
+  font-weight:bold;
+  color:#ffffff;
+  padding:0px;
+}
+
+.cal-table-list tbody td {
+  padding-left:5px;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+/* END view-list-display ---------------------------------------------------*/
+
+
+.topnavbar {
+  background:#dddddd;
+  height:25px;
+  text-align:center;
+}
+
+.topnavbar .active {
+  background:#ffffff;
+  padding: 3px 5px;
+}
+
+.topnavbar-icon {
+  vertical-align:middle;
+  text-align:center;
+  padding-bottom:3px;
+  padding-top:1px;
+  border:0px;
+}

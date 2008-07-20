@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" package_version="4.0" locale="ch_zh" charset="utf-8">
+
+  <msg key="All_day">整天地</msg>
+  <msg key="back_one_day">后退一天</msg>
+  <msg key="Date">日期</msg>
+  <msg key="Date_as">日期设置为</msg>
+  <msg key="Date_as_YYYYMMDD">日期设置为YYYYMMDD</msg>
+  <msg key="Day">日</msg>
+  <msg key="Day_of_Week">工作日</msg>
+  <msg key="days_of_week">星期日 星期一 星期二 星期三 星期四 星期五 星期六</msg>
+  <msg key="forward_one_day">前进一天</msg>
+  <msg key="is">是</msg>
+  <msg key="Items_from">从</msg>
+  <msg key="Items_until">到@pretty_end_date@为止的条目</msg>
+  <msg key="List">列表</msg>
+  <msg key="lt_Width_must_be_">宽度必须在1到12之间</msg>
+  <msg key="Month">月</msg>
+  <msg key="short_days_of_week">日 一 二 三 四 五 六</msg>
+  <msg key="to">到</msg>
+  <msg key="Today">今天</msg>
+  <msg key="Week">周</msg>
+</message_catalog>

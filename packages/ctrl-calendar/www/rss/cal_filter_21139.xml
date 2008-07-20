@@ -1,0 +1,32 @@
+<rss version="2.0">
+<channel>
+<title>DRC Calendar Events</title>
+<link>http://drc.ctrl.ucla.edu//calendar</link>
+<description>DRC Calendar Events</description>
+<generator>OpenACS 5.0</generator>
+<lastBuildDate>Tue, 14 Aug 2007 07:55:06 GMT</lastBuildDate>
+<pubDate>Tue, 14 Aug 2007 07:55:06 PST</pubDate>
+<item>
+<title>New Event</title>
+<link>http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=28183&amp;cal_id=0</link>
+<guid isPermaLink="true">http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=28183&amp;cal_id=0</guid>
+<description> Event   will take place on 08/07/07 11:00 am to 09/07/07 12:00 pm</description>
+</item>
+<item>
+<title>CNSI International Conference</title>
+<link>http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=20877&amp;cal_id=15540</link>
+<guid isPermaLink="true">http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=20877&amp;cal_id=15540</guid>
+<description>First Annual
+CNSI International Conference
+and
+Grand Opening of New Building at UCLA  will take place at CNSI, UCLA on 09/07/07 09:00 am to 09/09/07 05:00 pm</description>
+</item>
+<item>
+<title>Another</title>
+<link>http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=28191&amp;cal_id=0</link>
+<guid isPermaLink="true">http://drc.ctrl.ucla.edu//calendar/events/event-view?event_id=28191&amp;cal_id=0</guid>
+<description> Event   will take place on 09/07/07 11:00 am to 10/07/07 12:00 pm</description>
+</item>
+</channel>
+</rss>
+

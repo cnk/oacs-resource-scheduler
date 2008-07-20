@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="ar_LB" charset="utf-8">
+
+  <msg key="All_day">اليوم كله</msg>
+  <msg key="back_one_day">الرجوع يوم واحد</msg>
+  <msg key="Date">تاريخ</msg>
+  <msg key="Date_as">تأريخ كـَ</msg>
+  <msg key="Date_as_YYYYMMDD">تأريخ كـَ س س س س ش ش ي ي</msg>
+  <msg key="Day">يوم</msg>
+  <msg key="Day_of_Week">يوم من الإسبوع</msg>
+  <msg key="days_of_week">الاحد الاثنين الثلاثاء الاربعاء الخميس الجمعة السبت</msg>
+  <msg key="forward_one_day">التقدم يوم واحد</msg>
+  <msg key="is">هو</msg>
+  <msg key="Items_from">مواد منذ</msg>
+  <msg key="Items_until"> مواد حتى@pretty_end_date@</msg>
+  <msg key="List">القائمة</msg>
+  <msg key="lt_Width_must_be_">العرض يجب ان يكون بين 1 و 12</msg>
+  <msg key="Month">شهر</msg>
+  <msg key="short_days_of_week">أ  ن ث ر خ ج س</msg>
+  <msg key="to">إلى</msg>
+  <msg key="Today">اليوم</msg>
+  <msg key="Week">إسبوع</msg>
+</message_catalog>

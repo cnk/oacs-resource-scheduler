@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<message_catalog package_key="acs-datetime" locale="pa_IN" charset="utf-8">
+
+  <msg key="All_day">ਸਭ ਦਿਨ</msg>
+  <msg key="back_one_day">ਇੱਕ ਦਿਨ ਪਿੱਛੇ</msg>
+  <msg key="Date">ਮਿਤੀ</msg>
+  <msg key="Date_as">ਮਿਤੀ ਏਦਾਂ</msg>
+  <msg key="Date_as_YYYYMMDD">YYYYMMDD ਵਾਂਗ ਮਿਤੀ</msg>
+  <msg key="Day">ਦਿਨ</msg>
+  <msg key="Day_of_Week">ਹਫ਼ਤੇ ਦਾ ਦਿਨ</msg>
+  <msg key="days_of_week">ਐਤਵਾਰ ਸੋਮਵਾਰ ਮੰਗਲਵਾਰ ਬੁੱਧਵਾਰ ਵੀਰਵਾਰ ਸ਼ੁੱਕਰਵਾਰ ਸ਼ਨਿਚੱਰਵਾਰ</msg>
+  <msg key="forward_one_day">ਇੱਕ ਦਿਨ ਅੱਗੇ</msg>
+  <msg key="is">ਹੈ</msg>
+  <msg key="Items_from">ਏਥੋਂ ਇਕਾਈਆਂ</msg>
+  <msg key="Items_until">@pretty_end_date@ ਤੱਕ ਇਕਾਈਆਂ</msg>
+  <msg key="List">ਸੂਚੀ</msg>
+  <msg key="lt_Width_must_be_">ਗਿਣਤੀ 1 ਤੋਂ 12 ਦੇ ਵਿੱਚ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ</msg>
+  <msg key="Month">ਮਹੀਨਾ</msg>
+  <msg key="short_days_of_week">ਐ ਸੋ ਮੰ ਬੁ ਵੀ ਸ਼ੁ ਸ਼</msg>
+  <msg key="to">ਤੋਂ</msg>
+  <msg key="Today">ਅੱਜ</msg>
+  <msg key="Week">ਹਫ਼ਤਾ</msg>
+</message_catalog>
