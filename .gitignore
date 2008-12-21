@@ -2,3 +2,6 @@ CVS
 CVS/*
 log/*
 content-repository-content-files/*
+etc/*
+www/humphrey*
+packages/acs-developer-support*
