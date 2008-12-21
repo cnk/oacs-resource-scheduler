@@ -59,4 +59,8 @@
 		</tr>
 	</multiple>
 </table>
+
+expanded: @expanded@
+<p>
+visible expanded: @visible_expanded@
 </if>

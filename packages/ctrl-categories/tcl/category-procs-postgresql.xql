@@ -2,41 +2,33 @@
 <queryset>
 	<fullquery name="ctrl::category::new.new_category">
 	 <querytext>
-		begin
-			:1 := ctrl_category.new(
-				parent_category_id	=> :parent_category_id,
-				name				=> :name,
-				description			=> :description,
-				enabled_p			=> :enabled_p,
-				plural				=> :plural,
-				profiling_weight	=> :profiling_weight,
-				context_id			=> :context_id
-			);
-		end;
+
+		select ctrl_category__new(:parent_category_id,:name,:description,:enabled_p,:plural,:profiling_weight,:context_id)
+
 	 </querytext>
 	</fullquery>
 
 	<fullquery name="ctrl::category::remove.delete_category">
 	 <querytext>
-		begin
-			ctrl_category.del(:category_id);
-		end;
+
+		select ctrl_category__delete(:category_id)
+
 	 </querytext>
 	</fullquery>
 
 	<fullquery name="ctrl::category::name_from_id.name">
 	 <querytext>
-		select	ctrl_category.name(:category_id)
-		  from	dual
+		select	ctrl_category__name(:category_id)
 	 </querytext>
 	</fullquery>
 
 	<fullquery name="ctrl::category::find.lookup">
 	 <querytext>
-		select	ctrl_category.lookup(:path)
-		  from	dual
+		select	ctrl_category__lookup(:path)
 	 </querytext>
 	</fullquery>
+
+    <!-- CNK TODO - pretty sure I can't do anonymous blocks like this --> 
 
 	<fullquery name="ctrl::category::before_uninstantiate.remove_package_categories">
 	 <querytext>
@@ -47,7 +39,7 @@
 					   where	c.parent_category_id	is null
 						 and	c.category_id			= o.object_id
 						 and	o.context_id			= :package_id) loop
-				ctrl_category.del(c.category_id);
+				ctrl_category__delete(c.category_id);
 			end loop;
 		end;
 	 </querytext>
@@ -55,20 +47,23 @@
 
     <fullquery name="ctrl::category::option_list.get_subcategories">
      <querytext>
-        select  $spacing_statement name as name,
-                category_id
-          from  ctrl_categories  $query_constraint
-         start  with parent_category_id = ctrl_category.lookup(:path)
-        connect by prior category_id = parent_category_id
+        select  $spacing_statement children.name as name,
+                children.category_id
+          from  ctrl_categories children, ctrl_categories parent  
+          $query_constraint
+            and children.tree_sortkey between parent.tree_sortkey and tree_right(parent.tree_sortkey)
+            and and parent.tree_sortkey <> children.tree_sortkey
+            and parent_category_id = ctrl_category__lookup(:path)
      </querytext>
     </fullquery>
 
     <fullquery name="ctrl::category::option_id_list.get_subcategories">
      <querytext>
-        select category_id
-          from  ctrl_categories  
-         start  with parent_category_id = ctrl_category.lookup(:path)
-        connect by prior category_id = parent_category_id
+        select children.category_id
+          from ctrl_categories children, ctrl_categories parent  
+        where children.tree_sortkey between parent.tree_sortkey and tree_right(parent.tree_sortkey)
+          and and parent.tree_sortkey <> children.tree_sortkey
+          and parent_category_id = ctrl_category__lookup(:path)
      </querytext>
     </fullquery>
 

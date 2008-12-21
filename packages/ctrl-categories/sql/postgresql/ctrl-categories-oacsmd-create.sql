@@ -11,101 +11,121 @@
 -- @cvs-id			$Id:$
 --
 
--- Create an acs_object
-select acs_object_type__create_type (
-		'ctrl_category',
-		'CTRL Category',
-		'CTRL Categories',
-		'acs_object',
-		'ctrl_categories',
-		'category_id',
-		'ctrl_category.name',
-        'f',
+-- Create a new object type for categories
+create or replace function inline_0 ()
+returns integer as '
+begin
+PERFORM acs_object_type__create_type (
+		''ctrl_category'',
+		''CTRL Category'',
+		''CTRL Categories'',
+		''acs_object'',
+		''ctrl_categories'',
+		''category_id'',
+		''ctrl_category.name'',
+        ''f'',
         null,
         null
-);
+    );
+    return 0;
+end;' language 'plpgsql';
 
-begin;
+select inline_0 ();
+
+drop function inline_0 ();
 
 -- Register the attributes
-select acs_attribute__create_attribute (
-		'ctrl_category',
-		'name',
-        'string',
-		'Name',
-		'Names',
+create or replace function inline_1 ()
+returns integer as '
+declare
+ attr_id acs_attributes.attribute_id%TYPE;
+begin
+-- Register the meta-data for APM-packages                                                                                    
+ attr_id := acs_attribute__create_attribute (
+        ''ctrl_category'',
+        ''name'',
+        ''string'',
+        ''Name'',
+        ''Names'',
         null,
         null,
         null,
         1,
         1,
         null,
-        'type_specific',
-        'f'
+        ''type_specific'',
+        ''f''
 );
 
-select acs_attribute__create_attribute (
-		'ctrl_category',
-		'plural',
-        'string',
-		'Plural',
-		'Plurals',
+ attr_id := acs_attribute__create_attribute (
+        ''ctrl_category'',
+        ''plural'',
+        ''string'',
+        ''Plural'',
+        ''Plurals'',
         null,
         null,
         null,
         1,
         1,
         null,
-        'type_specific',
-        'f'
-);
+        ''type_specific'',
+        ''f''
+ );
 
-select acs_attribute__create_attribute (
-		'ctrl_category',
-		'description',
-        'string',
-		'Description',
-		'Descriptions',
+ attr_id := acs_attribute__create_attribute (
+        ''ctrl_category'',
+        ''description'',
+        ''string'',
+        ''Description'',
+        ''Descriptions'',
         null,
         null,
         null,
         1,
         1,
         null,
-        'type_specific',
-        'f'
-);
+        ''type_specific'',
+        ''f''
+ );
 
-select acs_attribute__create_attribute (
-		'ctrl_category',
-		'enabled_p',
-        'integer',
-		'Enabled?',
-		'Enabled?',
+ attr_id := acs_attribute__create_attribute (
+        ''ctrl_category'',
+        ''enabled_p'',
+        ''integer'',
+        ''Enabled?'',
+        ''Enabled?'',
         null,
         null,
         null,
         1,
         1,
         null,
-        'type_specific',
-        'f'
-);
+        ''type_specific'',
+        ''f''
+ );
 
-select acs_attribute__create_attribute (
-		'ctrl_category',
-		'profiling_weight',
-        'integer',
-		'Profiling Weight',
-		'Profiling Weights',
+ attr_id := acs_attribute__create_attribute (
+        ''ctrl_category'',
+        ''profiling_weight'',
+        ''integer'',
+        ''Profiling Weight'',
+        ''Profiling Weights'',
         null,
         null,
         null,
         1,
         1,
         null,
-        'type_specific',
-        'f'
-);
+        ''type_specific'',
+        ''f''
+ );
 
-end;
+ return 0;   
+end;' language 'plpgsql';
+
+select inline_1 ();
+
+drop function inline_1 ();
+
+

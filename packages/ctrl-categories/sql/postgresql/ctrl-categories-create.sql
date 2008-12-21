@@ -11,5 +11,5 @@
 --
 
 \i ctrl-categories-table-create.sql
--- \i ctrl-categories-oacsmd-create.sql
--- \i ctrl-categories-package-create.sql
+\i ctrl-categories-oacsmd-create.sql
+\i ctrl-categories-package-create.sql
