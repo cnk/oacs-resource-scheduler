@@ -9,19 +9,19 @@
 <tr><td>Start Date: <formwidget id=start_date></td></tr>
 <tr><td>End Date: <formwidget id=end_date></td></tr>
 <tr><td>Location: <formwidget id=location></td></tr>
-<tr><td>Aapproval Required: 
+<tr><td>Approval Required: 
 	<formgroup id="approval_required_p" onClick="repeatType()"> 
-			@formgroup.widget@ @formgroup.label@
+			@formgroup.widget;noquote@ @formgroup.label@
 	</formgroup>
 </td></tr>
 <tr><td>Registration Start: <formwidget id=registration_start></td></tr>
 <tr><td>Registration End: <formwidget id=registration_end></td></tr>
-<tr><td>Cpacity Consideration: 
+<tr><td>Capacity Consideration: 
 	<formgroup id="capacity_consideration_p" onClick="repeatType()"> 
-			@formgroup.widget@ @formgroup.label@
+			@formgroup.widget;noquote@ @formgroup.label@
 	</formgroup>
 </td></tr>
-<tr><td>Cpacity: <formwidget id=capacity></td></tr>
+<tr><td>Capacity: <formwidget id=capacity></td></tr>
 </table>
 <br>
 <center>

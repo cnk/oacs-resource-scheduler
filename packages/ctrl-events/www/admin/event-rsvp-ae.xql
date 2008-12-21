@@ -16,7 +16,7 @@
 			ce.all_day_p,
 			nvl(ce.capacity,0) as capacity,
 			ce.location,
-			category.name(ce.category_id) as category,
+			ctrl_category.name(ce.category_id) as category,
 			nvl(cer.rsvp_admin_approval_required_p,'t') as approval_required_p,
 			to_char(nvl(cer.rsvp_registration_start_date,ce.start_date-7),'YYYY MM DD') as registration_start,
 			to_char(nvl(cer.rsvp_registration_end_date,ce.start_date),'YYYY MM  DD') as registration_end,
