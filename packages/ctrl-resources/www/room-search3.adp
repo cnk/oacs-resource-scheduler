@@ -10,6 +10,7 @@ To view your past and pending reservations, click <a href=@previous_reservations
 
 Please select all search criteria that apply to your needs (leave everything as is to get complete listing):
 <br><br>
+
 <formtemplate id="search"> 
 
 <table>

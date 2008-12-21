@@ -1,11 +1,11 @@
 <master>
 <property name="title">@page_title@</property>
 
-<h3> Room Reservation </h3>
+<h1> Room Reservation </h1>
 
 
 Click on one of the options to proceed: 
-
+<div style="padding-left:30px">
 <ul>
    <if @user_most_common:rowcount@ gt 0>
     <li> Rooms that you have reserved in the past. 
@@ -36,9 +36,10 @@ Click on one of the options to proceed:
     <li> Quick Room Views: <a href='@video_url@'>Video Playback</a> | <a href='@data_projector_url@'>Data Projectors</a> |
 <a href='@slide_projector_url@'>Slide Projectors</a> | <a href='@sound_url@'>Sound Systems</a> | <a href="@all_rooms@"> All Rooms </a> </li>
 </ul>
-
-<h3> Administration </h3>
+<br><br>
+<h2> Administration </h2>
 <ul>
     <li> <a href='@admin_room_url@'>Room Administration</a></li>
     <li> <a href='@admin_resv_resource_url@'>General Equipment Administration</li>
 </ul>
+</div>
