@@ -10,29 +10,29 @@
 -- @cvs-id		$Id:$
 --
 
--- drop plpgsql packages
-select drop_package('ctrl_category');
-
 create function inline_0 ()
 returns integer as '
 declare
     c     record;
 begin
 	-- drop instances
-	for c in select	object_id from acs_objects where object_type = ''ctrl_category'' 
-    loop
+	for c in select	object_id from acs_objects where object_type = ''ctrl_category'' loop
+        raise notice ''c is %'', c.object_id;
         perform ctrl_category__delete(c.object_id);
     end loop;
 
-    -- drop OpenACS metadata
-    perform acs_object_type__drop_type(''ctrl_category'', ''f'');
-
-    return null;
+    return 0;
 
 end;' language 'plpgsql';
 
 select inline_0 ();
 drop function inline_0(); 
+
+-- drop plpgsql package
+select drop_package('ctrl_category');
+
+-- drop OpenACS metadata
+select acs_object_type__drop_type('ctrl_category', 'f');
 
 
 -- drop DDL objects

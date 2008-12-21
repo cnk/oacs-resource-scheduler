@@ -45,18 +45,6 @@
 	 </querytext>
 	</fullquery>
 
-	<fullquery name="category_name">
-	 <querytext>
-		select name from ctrl_categories where category_id = :category_id
-	 </querytext>
-	</fullquery>
-
-	<fullquery name="parent_category_name">
-	 <querytext>
-		select name from ctrl_categories where category_id = :parent_category_id
-	 </querytext>
-	</fullquery>
-
 	<fullquery name="category_new">
 	 <querytext>
 		begin
@@ -92,25 +80,15 @@
 	 </querytext>
 	</fullquery>
 
-	<fullquery name="category_edit">
-	 <querytext>
-		update	ctrl_categories
-		   set	name				= :name,
-				plural				= :plural,
-				description			= :description,
-				enabled_p			= :enabled_p,
-				profiling_weight	= :profiling_weight
-		 where	category_id			= :category_id
+    <fullquery name="category_update_last_modified">
+         <querytext>
+                update  acs_objects
+                   set  last_modified   = sysdate
+                 where  object_id	= :category_id
 	 </querytext>
 	</fullquery>
 
-	<fullquery name="category_update_last_modified">
-	 <querytext>
-		update	acs_objects
-		   set	last_modified	= sysdate
-		 where	object_id		= :category_id
-	 </querytext>
-	</fullquery>
+
 </queryset>
 
 <!--	Local Variables:	-->

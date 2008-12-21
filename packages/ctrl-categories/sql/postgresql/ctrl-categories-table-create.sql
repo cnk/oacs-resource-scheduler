@@ -1,7 +1,8 @@
 -- categories contains a simple grouping mechanism for categorizing content
 create table ctrl_categories (
         category_id                             integer
-                constraint                      ctrl_categories_category_id_pk primary key,
+                constraint                      ctrl_categories_category_id_pk primary key
+                constraint                      ctrl_categories_category_id_fk references acs_objects(object_id),
         parent_category_id                      integer
                 constraint                      ctrl_categories_parent_category_id_fk references ctrl_categories (category_id),
         name                                    varchar(300)    not null,

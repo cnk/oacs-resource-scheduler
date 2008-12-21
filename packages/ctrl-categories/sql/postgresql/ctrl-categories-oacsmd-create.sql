@@ -16,16 +16,16 @@ create or replace function inline_0 ()
 returns integer as '
 begin
 PERFORM acs_object_type__create_type (
-		''ctrl_category'',
-		''CTRL Category'',
-		''CTRL Categories'',
-		''acs_object'',
-		''ctrl_categories'',
-		''category_id'',
-		''ctrl_category.name'',
-        ''f'',
-        null,
-        null
+        ''ctrl_category'',            -- object_type              
+        ''CTRL Category'',            -- pretty_name              
+        ''CTRL Categories'',          -- pretty_plural            
+        ''acs_object'',               -- supertype                
+        ''ctrl_categories'',          -- table_name               
+        ''category_id'',              -- id_column                
+        null,                         -- package_name             
+        ''f'',                        -- abstract_p               
+        null,                         -- type_extensions_table    
+        ''ctrl_category__name''  	  -- name_method              
     );
     return 0;
 end;' language 'plpgsql';
@@ -37,11 +37,9 @@ drop function inline_0 ();
 -- Register the attributes
 create or replace function inline_1 ()
 returns integer as '
-declare
- attr_id acs_attributes.attribute_id%TYPE;
 begin
 -- Register the meta-data for APM-packages                                                                                    
- attr_id := acs_attribute__create_attribute (
+ PERFORM acs_attribute__create_attribute (
         ''ctrl_category'',
         ''name'',
         ''string'',
@@ -57,7 +55,7 @@ begin
         ''f''
 );
 
- attr_id := acs_attribute__create_attribute (
+ PERFORM acs_attribute__create_attribute (
         ''ctrl_category'',
         ''plural'',
         ''string'',
@@ -73,7 +71,7 @@ begin
         ''f''
  );
 
- attr_id := acs_attribute__create_attribute (
+ PERFORM acs_attribute__create_attribute (
         ''ctrl_category'',
         ''description'',
         ''string'',
@@ -89,7 +87,7 @@ begin
         ''f''
  );
 
- attr_id := acs_attribute__create_attribute (
+ PERFORM acs_attribute__create_attribute (
         ''ctrl_category'',
         ''enabled_p'',
         ''integer'',
@@ -105,7 +103,7 @@ begin
         ''f''
  );
 
- attr_id := acs_attribute__create_attribute (
+ PERFORM acs_attribute__create_attribute (
         ''ctrl_category'',
         ''profiling_weight'',
         ''integer'',

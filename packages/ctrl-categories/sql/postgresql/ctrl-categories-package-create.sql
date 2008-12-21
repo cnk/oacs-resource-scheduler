@@ -76,6 +76,24 @@ declare
 
 end;' language 'plpgsql';
 
+-- function new with defaults  --------------------------------------------------------------
+
+create or replace function ctrl_category__new (integer,varchar,varchar,varchar,char,integer,integer)
+returns integer as '
+declare 
+        new__parent_category_id     alias for $1;   -- default null,
+        new__name                   alias for $2; 
+        new__plural                 alias for $3;   -- default null,
+        new__description            alias for $4;   -- default null,
+        new__enabled_p              alias for $5;   -- default ''t'',
+        new__profiling_weight       alias for $6;   -- default 1,
+        new__context_id             alias for $7;  -- default null
+        v_category_id               integer; -- return value
+begin
+    select ctrl_category__new (new__parent_category_id,new__name,new__plural,new__description,new__enabled_p,new__profiling_weight,''ctrl_category'',NULL,NULL,new__context_id) into v_category_id;
+    return v_category_id;
+end;' language 'plpgsql';
+
 -- function delete  --------------------------------------------------------------
 
 select define_function_args('ctrl_category__delete','category_id');
@@ -96,6 +114,9 @@ declare
 			 where category_id = c.category_id;
 			perform acs_object__delete(c.category_id);
 		end loop;
+	
+	return 0;
+
 end;' language 'plpgsql';
 
 
@@ -122,65 +143,67 @@ end;' language 'plpgsql';
 
 select define_function_args('ctrl_category__get_subcat','parent_cat_id,subcat_name,create_p;f,description,enabled_p,profiling_weight');
 
-create or replace function ctrl_category__get_subcat (ctrl_categories.category_id%TYPE, ctrl_categories.name%TYPE, char, ctrl_categories.description%TYPE,  ctrl_categories.enabled_p%TYPE,	ctrl_categories.profiling_weight%TYPE)
+create or replace function ctrl_category__get_subcat (ctrl_categories.category_id%TYPE, ctrl_categories.name%TYPE, char, ctrl_categories.description%TYPE,  ctrl_categories.enabled_p%TYPE, ctrl_categories.profiling_weight%TYPE)
 returns ctrl_categories.category_id%TYPE as '
 declare 
-		parent_cat_id		alias for $1;
-		subcat_name			alias for $2;
-		create_p			alias for $3;   --	default should be ''f''
-		description			alias for $4;   --	default null
-		enabled_p			alias for $5;   --	default null
-		profiling_weight	alias for $6;   --	default null
+        parent_cat_id       alias for $1;
+        subcat_name         alias for $2;
+        create_p            alias for $3;   --  default should be ''f''
+        description         alias for $4;   --  default null
+        enabled_p           alias for $5;   --  default null
+        profiling_weight    alias for $6;   --  default null
         v_subcat_id         integer := null;
-	begin
-		-- we need to use a slightly different query when the parent category id we want is null
-		if parent_cat_id is null then
-			begin
-				select category_id into v_subcat_id
-				  from ctrl_categories
-				 where parent_category_id is null
-				   and name = subcat_name;
+    begin
+        -- we need to use a slightly different query when the parent category id we want is null
+        if parent_cat_id is null then
+            begin
+                select category_id into v_subcat_id
+                  from ctrl_categories
+                 where parent_category_id is null
+                   and name = subcat_name;
                 if not found then
-				    v_subcat_id := null;
+                    v_subcat_id := null;
                 end if;
-			end;
-		else
-			begin
-				select category_id into v_subcat_id
-				  from ctrl_categories
-				 where parent_category_id = parent_cat_id
-				   and name = subcat_name;
+            end;
+        else
+            begin
+                select category_id into v_subcat_id
+                  from ctrl_categories
+                 where parent_category_id = parent_cat_id
+                   and name = subcat_name;
                 if not found then
-				    v_subcat_id := null;
+                    v_subcat_id := null;
                 end if;
-			end;
-		end if;
+            end;
+        end if;
 
 
-		-- if the subcat was not found
-		if v_subcat_id is null then
-			-- if we are not supposed to create a subcat, return null
-			if lower(create_p) = ''f'' then
-				return v_subcat_id;
-			end if;
+        -- if the subcat was not found
+        if v_subcat_id is null then
+            -- if we are not supposed to create a subcat, return null
+            if lower(create_p) = ''f'' then
+                return v_subcat_id;
+            end if;
 
-			-- create the subcategory
-			v_subcat_id := ctrl_category.new(
-				parent_category_id	=> parent_cat_id,
-				name				=> subcat_name,
-				plural				=> subcat_name,
-				description			=> description,
-				enabled_p			=> enabled_p,
-				profiling_weight	=> profiling_weight
-			);
-		end if;
+            -- create the subcategory
+            v_subcat_id := ctrl_category__new(
+                parent_category_id  => parent_cat_id,
+                name                => subcat_name,
+                plural              => subcat_name,
+                description         => description,
+                enabled_p           => enabled_p,
+                profiling_weight    => profiling_weight
+            );
+        end if;
 
-		return v_subcat_id;
+        return v_subcat_id;
 end;' language 'plpgsql';
+
+
 
 -- function get_subcat - with defaults ----------------------------------------------------------
 
-create or replace function ctrl_category__get_subcat (ctrl_categories.category_id%TYPE, ctrl_categories.name%TYPE)
+create or replace function ctrl_category__get_subcat(ctrl_categories.category_id%TYPE, ctrl_categories.name%TYPE)
 returns ctrl_categories.category_id%TYPE as '
 declare 
 		parent_cat_id		alias for $1;
@@ -195,6 +218,24 @@ declare
 
 		return v_subcat_id;
 end;' language 'plpgsql';
+
+
+create or replace function ctrl_category__get_subcat(ctrl_categories.category_id%TYPE, ctrl_categories.name%TYPE)
+returns ctrl_categories.category_id%TYPE as '
+declare 
+		parent_cat_id		alias for $1;
+		subcat_name			alias for $2;
+		create_p			char := ''f'';
+		description			ctrl_categories.description%TYPE := NULL;
+		enabled_p			ctrl_categories.enabled_p%TYPE := NULL;   
+		profiling_weight	ctrl_categories.profiling_weight%TYPE := NULL;
+        v_subcat_id         integer := null;
+	begin
+        select ctrl_category__get_subcat(parent_cat_id, subcat_name, create_p, description, enabled_p, profiling_weight) into v_subcat_id;
+
+		return v_subcat_id;
+end;' language 'plpgsql';
+
 
 
 -- function lookup  --------------------------------------------------------------
@@ -216,66 +257,81 @@ select define_function_args('ctrl_category__lookup','category_id');
 create or replace function ctrl_category__lookup (varchar,ctrl_categories.category_id%TYPE, char,ctrl_categories.description%TYPE,ctrl_categories.enabled_p%TYPE, ctrl_categories.profiling_weight%TYPE)
 returns ctrl_categories.category_id%TYPE as '
 declare
-		path			alias for $1;
-		root			alias for $2;   -- default null
-		create_p		alias for $3;   -- default ''f''
-		description		alias for $4;   -- default null
-		enabled_p		alias for $5;   -- default null
-		profiling_weight alias for $6;  -- default null
+        path            alias for $1;
+        root            alias for $2;   -- default null
+        create_p        alias for $3;   -- default ''f''
+        description     alias for $4;   -- default null
+        enabled_p       alias for $5;   -- default null
+        profiling_weight alias for $6;  -- default null
         v_create_p  char                        :=''f'';
-		v_ppos		integer						:= 1;
-		v_next		integer						:= 1;
-		v_nname		ctrl_categories.name%TYPE			:= '''';
-		found_id	ctrl_categories.category_id%TYPE		:= root;
-	begin
-		-- make sure root node exists before using it
+        v_ppos      integer                     := 1;
+        v_next      integer                     := 1;
+        v_nname     ctrl_categories.name%TYPE   := '''';
+        found_id    ctrl_categories.category_id%TYPE        := root;
+		counter	    integer 					:= 1;
+    begin
+        -- make sure root node exists before using it
         -- CNK not sure this check is ported correctly; figure out how to test
-		if root is not null then
-			begin
-				select category_id into found_id from ctrl_categories where category_id = root;
-				if not found then 
+        if root is not null then
+            begin
+                select category_id into found_id from ctrl_categories where category_id = root;
+                if not found then 
                     return null;
                 end if;
-			end;
-		end if;
-
+            end;
+        end if;
         if create_p is not null then
             v_create_p := create_p;
+		else
+			v_create_p := ''f'';
         end if;
 
-		while next > 0 loop
-			-- find end of name of subcategory
-			v_next	:= instr(path, ''//'', v_ppos);
+        while v_next > 0 loop
+            -- find end of name of subcategory
+            v_next  := instr(path, ''//'', 1, counter);
+			RAISE NOTICE ''v_next: %'', v_next;
+			RAISE NOTICE ''counter: %'', counter;
 
-			-- extract name of subcategory
-			if v_next <= 0 then
-				v_nname := substr(path, v_ppos);
-			else
-				v_nname := substr(path, v_ppos, v_next - v_ppos);
-			end if;
+            -- extract name of subcategory
+            if v_next <= 0 then
+                v_nname := substr(path, v_ppos);
+            else				
+			 	RAISE NOTICE ''v_ppos - %'', v_ppos;
+			 	RAISE NOTICE ''v_next - %'', v_next;
+                v_nname := substr(path, v_ppos, v_next - v_ppos);
+            end if;
 
-			-- only look for a subcategory if there is a name to look for
-			if length(v_nname) > 0 then
-				if v_next > 0 then
-					found_id := get_subcat(found_id, v_nname, v_create_p);
-				else
-					found_id := get_subcat(found_id, v_nname, v_create_p,
-											description, enabled_p, profiling_weight);
-				end if;
+            -- only look for a subcategory if there is a name to look for
+            if length(v_nname) > 0 then
+                if v_next > 0 then
+                    found_id := ctrl_category__get_subcat(found_id, v_nname, v_create_p,null,null,null);
+                else
+                    found_id := ctrl_category__get_subcat(found_id, v_nname, v_create_p,
+                                            description, enabled_p, profiling_weight);
+                end if;
 
-				exit when found_id is null;
-			end if;
+                exit when found_id is null;
+            end if;
 
-			v_ppos	:= v_next + 2;
-		end loop;
+            v_ppos  := v_next + 2;
+			counter := counter + 2;
+        end loop;
 
-		return found_id;
+        return found_id;
+end;' language 'plpgsql';
+
+create or replace function ctrl_category__lookup (varchar)
+returns ctrl_categories.category_id%TYPE as '
+declare
+        path            alias for $1;
+begin
+    return  ctrl_category__lookup (path,NULL,''f'',NULL,NULL,NULL);
 end;' language 'plpgsql';
 
 
 -- helper function for tree_sortkeys -----------
 
-create or replace function ctrl_categories__get_tree_sortkey(integer) returns varbit as '
+create or replace function ctrl_category__get_tree_sortkey(integer) returns varbit as '
 declare
   p_category_id    alias for $1;
 begin

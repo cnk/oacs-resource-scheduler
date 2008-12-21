@@ -68,6 +68,8 @@ if {![info exists tree_title]} {
 	set tree_title "Category"
 }
 
+ns_log notice "TREE tree_title: $tree_title"
+
 ################################################################################
 ################################################################################
 # Manage the cookies that store expanded categories.
@@ -121,6 +123,17 @@ if {[array size visible_expanded_set] > 1 && [info exists visible_expanded_set(n
 
 set expanded			[array names expanded_set]
 set visible_expanded	[array names visible_expanded_set]
+
+if {[string equal [string tolower [db_type]] "postgresql"]} {
+	### in Postgresql, we have trouble with extra rows that are not within the tree. 
+	### in Oracle, the start with eliminates them; in postgres, this code removes them
+	if {[exists_and_not_null root_category_id]} {
+		set root_category_treelevel [db_string root_category_treelevel {} -default 1]
+		set visible_expanded [db_list visible_expanded_pruned {}]
+		lappend visible_expanded $root_category_id
+	}
+}
+
 ################################################################################
 ################################################################################
 
@@ -251,28 +264,35 @@ db_multirow -extend {
 	} else {
 		set expand_txt {&nbsp;}
 	}
-
-	# setup a sort-key:
-	#	1. Pop off the top until 'level - 1' items are in the stack.
-	#	2. Push the name of the current category onto the stack.
-	#	3. The sort-key is the concatenation of the stack elements.
-	#		To enhance run-time efficiency in deep trees, we avoid always
-	#		concatenating long lists by keeping a string ('sk_tmp') and
-	#		chopping off the bits of it that change between rows.
-	set top		[llength $stack]
-	set newtop	[expr $level - 1]
-	if {$newtop < $top && $newtop >= 0} {
-		set topelements	"//[join [lrange $stack $newtop end] //]"
-		set stack		[lreplace $stack $newtop end]
-		set	sk_tmp		[string range $sk_tmp \
-							 0 \
-							 [expr [string length $sk_tmp] \
-								  - [string length $topelements] \
-								  - 1]]
-	}
-	lappend	stack $name
-	append	sk_tmp "//" $name
-	set sort_key $sk_tmp
+	
+	if {[string equal [string tolower [db_type]]  "oracle"]} {
+		# setup a sort-key:
+		#	1. Pop off the top until 'level - 1' items are in the stack.
+		#	2. Push the name of the current category onto the stack.
+		#	3. The sort-key is the concatenation of the stack elements.
+		#		To enhance run-time efficiency in deep trees, we avoid always
+		#		concatenating long lists by keeping a string ('sk_tmp') and
+		#		chopping off the bits of it that change between rows.
+		set top		[llength $stack]
+		set newtop	[expr $level - 1]
+		if {$newtop < $top && $newtop >= 0} {
+			set topelements	"//[join [lrange $stack $newtop end] //]"
+			set stack		[lreplace $stack $newtop end]
+			set	sk_tmp		[string range $sk_tmp \
+								 0 \
+								 [expr [string length $sk_tmp] \
+									  - [string length $topelements] \
+									  - 1]]
+		}
+		lappend	stack $name
+		append	sk_tmp "//" $name
+		set sort_key $sk_tmp
+	} elseif {[string equal [string tolower [db_type]]  "postgresql"]} {
+		set sort_key tree_sortkey
+	} else {
+		ns_log Error "We have neither an oracle nor a postgresql database. I don't know what to do."
+		set sort_key 1
+	} 
 
 	# root_w_child_exists_p, unique_category_types
 }
