@@ -223,6 +223,7 @@ create table ctrl_events_objects (
 				 constraint ctrl_eo_object_id_fk references acs_objects(object_id),
        name			 varchar2(300) 
 				 constraint ctrl_eo_name_nn not null,
+       last_name		 varchar2(300),
        object_type_id		 integer
 				 constraint ctrl_eo_object_type_id_nn not null
 				 constraint ctrl_eo_object_type_id_fk references ctrl_categories(category_id),
@@ -232,7 +233,7 @@ create table ctrl_events_objects (
        image_width		 integer,
        image_height		 integer,
        image_file_type		 varchar2(100),
-       constraint ctrl_eo_name_object_type_id_un unique (name, object_type_id)
+       constraint ctrl_eo_name_object_type_id_un unique (name, last_name, object_type_id)
 );
 
 comment on table ctrl_events_objects is '
@@ -251,6 +252,9 @@ create table ctrl_events_event_object_map (
 				constraint ctrl_eeom_object_id_fk references ctrl_events_objects(event_object_id),
        tag			varchar2(100) 
 				constraint ctrl_eeom_tag_nn not null,
+       event_object_group_id    integer
+                                constraint ctrl_eeom_group_id_nn not null,
+       constraint ctrl_eeom_group_id_un unique (event_id, event_object_id, event_object_group_id),
        constraint ctrl_eeom_event_tag_un unique (event_id, tag),
        constraint ctrl_eeom_pk primary key (event_id, event_object_id)
 );

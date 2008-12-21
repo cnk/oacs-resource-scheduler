@@ -11,6 +11,7 @@ as
    function new (
 	event_object_id in ctrl_events_objects.event_object_id%TYPE,
 	name 		in ctrl_events_objects.name%TYPE,
+        last_name       in ctrl_events_objects.last_name%TYPE,
 	object_type_id	in ctrl_events_objects.object_type_id%TYPE,
 	description	in ctrl_events_objects.description%TYPE,
 	url		in ctrl_events_objects.url%TYPE,
@@ -33,9 +34,9 @@ as
         );
 	
 	insert into ctrl_events_objects
-	(event_object_id, name, object_type_id, description, url)
+	(event_object_id, name, last_name, object_type_id, description, url)
 	values
-	(v_event_object_id, name, object_type_id, description, url);
+	(v_event_object_id, name, last_name, object_type_id, description, url);
 
 	return v_event_object_id;
    end new;

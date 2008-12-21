@@ -11,6 +11,7 @@ as
    function new (
 	event_object_id	in ctrl_events_objects.event_object_id%TYPE,
 	name		in ctrl_events_objects.name%TYPE,
+        last_name       in ctrl_events_objects.last_name%TYPE,
 	object_type_id	in ctrl_events_objects.object_type_id%TYPE,
 	description	in ctrl_events_objects.description%TYPE,
 	url		in ctrl_events_objects.url%TYPE,
