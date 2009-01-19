@@ -118,21 +118,6 @@ ad_proc -public ctrl::category::find {
 	return [db_string lookup {}]
 }
 
-ad_proc -public ctrl::category::before_uninstantiate {
-	{-package_id:required}
-} {
-	Removes data belonging to an instance of ctrl::categories from the database.
-	
-	@param	package_id	The ID of that ctrl::categories instance to remove.
-	
-	@author			Andrew Helsley (helsleya@cs.ucr.edu)
-	@creation-date	2005-05-09 15:28 PDT
-} {
-	db_transaction {
-		db_exec_plsql remove_package_categories {}
-	}
-}
-
 ad_proc -public ctrl::category::option_list {
 	{-path:required}
 	{-top_label}
@@ -200,4 +185,19 @@ ad_proc -public ctrl::category::option_id_list {
       set result [linsert $result 0 $top_value]
    }
    return $result
+}
+
+ad_proc -public ctrl::category::before_uninstantiate {
+	{-package_id:required}
+} {
+	Removes data belonging to an instance of ctrl::categories from the database.
+	
+	@param	package_id	The ID of that ctrl::categories instance to remove.
+	
+	@author			Andrew Helsley (helsleya@cs.ucr.edu)
+	@creation-date	2005-05-09 15:28 PDT
+} {
+	db_transaction {
+		db_exec_plsql remove_package_categories {}
+	}
 }
