@@ -78,12 +78,16 @@ ad_proc -public ctrl::address::category::new {
 	set package_id [ad_conn package_id]
     }
 
-    if {[empty_string_p $context_id]} {
-	set context_id [ad_conn package_id]
-    }
-
     if {[empty_string_p $parent_category_id]} {
 	set parent_category_id [ctrl::address::category::root_info -info id -package_id $package_id]
+    }
+
+    if {[empty_string_p $context_id]} {
+	if {![empty_string_p $parent_category_id]} {
+	    set context_id $parent_category_id
+	} else {
+	    set context_id [ad_conn package_id]
+	}
     }
 
     return [ctrl::category::new -parent_category_id $parent_category_id \
@@ -143,3 +147,4 @@ ad_proc -public ctrl::address::category::find {
 
     return [ctrl::category::find -path $path]
 }
+

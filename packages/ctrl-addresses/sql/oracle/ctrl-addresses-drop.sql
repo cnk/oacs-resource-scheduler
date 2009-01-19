@@ -18,5 +18,5 @@ show errors
 
 drop package ctrl_address;
 
-@ctrl-addresses-tables-drop
+drop table ctrl-addresses;
 #execute acs_object_type.drop_type('ctrl_address');

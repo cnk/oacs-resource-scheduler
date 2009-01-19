@@ -9,12 +9,15 @@
     
     <version name="0.1d" url="http://openacs.org/repository/download/apm/ctrl-addresses-0.1d.apm">
         <owner url="mailto:jeff@ctrl.ucla.edu">Jeff Wang</owner>
+        <maturity>0</maturity>
 
         <provides url="ctrl-addresses" version="0.1d"/>
         <requires url="ctrl-categories" version="2.0"/>
 
         <callbacks>
             <callback type="after-instantiate"  proc="ctrl::address::install::after_instantiate"/>
+            <callback type="before-uninstall"  proc="ctrl::address::install::before_uninstall"/>
+            <callback type="before-uninstantiate"  proc="ctrl::address::install::before_uninstantiate"/>
         </callbacks>
         <parameters>
         <!-- No version parameters -->
