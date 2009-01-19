@@ -49,13 +49,13 @@
 
     <fullquery name="ctrl::category::option_list.get_subcategories">
      <querytext>
-        select  $spacing_statement children.name as name,
+        select  distinct $spacing_statement children.name as name,
                 children.category_id
           from  ctrl_categories children, ctrl_categories parent  
           $query_constraint
             and children.tree_sortkey between parent.tree_sortkey and tree_right(parent.tree_sortkey)
-            and and parent.tree_sortkey <> children.tree_sortkey
-            and parent_category_id = ctrl_category__lookup(:path)
+            and parent.tree_sortkey <> children.tree_sortkey
+            and children.parent_category_id = ctrl_category__lookup(:path)
      </querytext>
     </fullquery>
 
