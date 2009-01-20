@@ -3,9 +3,11 @@ CVS
 CVS/*
 apm-workspace*
 bin*
-Changelog
+ChangeLog
 content-repository-content-files/*
 etc*
+license.txt
+readme.txt
 log*
 tcl*
 www*
