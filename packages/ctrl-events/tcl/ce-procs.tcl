@@ -47,25 +47,25 @@ ad_proc -public ctrl_event::event_image_display {
 } {
 	set package_url [site_node_closest_ancestor_package_url -package_key ctrl-events -default "/events/"]
 	
-	set selection [db_0or1row event_image_display {}]
-
-	if {!$selection} {
-		return ""
-	} else {
-		if {![empty_string_p $event_image]} {
-			set event_image ""
-			if {![empty_string_p $event_image_height] && ![empty_string_p $event_image_width]} {
-				append event_image "<img width=\"[expr $event_image_width]\" height=\"[expr $event_image_height]\" \
-                    src=\"$package_url/event-image-display?[export_url_vars event_id]\" border=\"0\">"
+	#set selection [db_0or1row event_image_display {}]
+	ctrl_event::get -event_id $event_id -array event_info
+	set image_item_id $event_info(image_item_id)
+	if {![empty_string_p $image_item_id]} {
+		set event_image ""
+		set revision_exists_p [content::item::get -item_id $image_item_id -array_name "image_info"]
+		if {$revision_exists_p} {
+			set width $image_info(width)
+			set height $image_info(height)
+			if {![empty_string_p $height] && ![empty_string_p $width]} {
+ 				append event_image "<img width=\"$width\" height=\"$height\" src=\"/image/$image_item_id\" border=\"0\">"
 			} else {
-				append event_image "<img src=\"$package_url/event-image-display?[export_url_vars event_id]\" border=\"0\">"
-			}
-		} else {
-			set event_image ""
+ 				append event_image "<img src=\"/image/$image_item_id\" border=\"0\">"
+			}				
+			return $event_image
 		}
-
-		return $event_image
 	}
+
+	return ""
 }
 
 ad_proc -public ctrl_event::new {
@@ -115,11 +115,12 @@ ad_proc -public ctrl_event::new {
 			set package_id [ad_conn package_id]
 		}
 
-		set event_id [db_exec_plsql add {}]
-		db_dml notes {} -clobs [list $notes]
+ 		set event_id [db_exec_plsql add {}]
+		# db_dml notes {} -clobs [list $notes]
 
 		if {![empty_string_p $event_image]} {
-			ctrl_event_image::image -event_id $event_id -event_image $event_image
+			set item_id [ctrl_event_image::new -event_id $event_id -event_image $event_image -event_image_caption $event_image_caption]
+			db_dml update_item_id {}
 		}
 
 	} on_error {
@@ -147,7 +148,7 @@ ad_proc -public ctrl_event::update {
 	{-event_image ""}
 	{-event_image_caption ""}
 	{-category_id:required}
- } {
+} {
 	Update a row in the ctrl_events table
 
 	@param event_id
@@ -165,7 +166,6 @@ ad_proc -public ctrl_event::update {
 	@param event_image_caption
 	@param category_id
 } {
-
 	set error_p 0
 	if {[empty_string_p $repeat_template_p]}	{set repeat_template_p "f"}
 	if {[empty_string_p $all_day_p]}			{set all_day_p "f"}
@@ -173,10 +173,18 @@ ad_proc -public ctrl_event::update {
 	db_transaction {
 		ctrl_procs::acs_object::update_object -object_id $event_id
 		db_dml update {}
-		db_dml notes {} -clobs [list $notes]
+		#db_dml notes {} -clobs [list $notes]
 
 		if {![empty_string_p $event_image]} {
-			ctrl_event_image::image -event_id $event_id -event_image $event_image
+			#ctrl_event_image::image -event_id $event_id -event_image $event_image
+			ctrl_event::get -event_id $event_id -array event_info
+			set image_item_id $event_info(image_item_id)
+			if {[empty_string_p $image_item_id]} {
+				set item_id [ctrl_event_image::new -event_id $event_id -event_image $event_image -event_image_caption $event_image_caption]				
+				db_dml update_item_id {}
+			} else {
+				ctrl_event_image::update -image_item_id $image_item_id -event_image $event_image -event_image_caption $event_image_caption
+			}
 		}
 		
 	} on_error {

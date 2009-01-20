@@ -15,13 +15,16 @@ This package is used by the Digest, Room Reservation, and Calendar Packages.</su
         <vendor url="http://www.ctrl.ucla.edu/">CTRL</vendor>
         <description format="text/html">The CTRL Events Package is used to manage events for objects.
 This package is used by the Digest, Room Reservation, and Calendar Packages.</description>
+        <maturity>0</maturity>
 
         <provides url="ctrl-events" version="0.1d"/>
-        <requires url="ctrl-procs" version="1.1"/>
         <requires url="ctrl-categories" version="2.0"/>
+        <requires url="ctrl-procs" version="1.1"/>
 
         <callbacks>
             <callback type="after-instantiate"  proc="ctrl_event::install::after_instantiate"/>
+            <callback type="before-uninstall"  proc="ctrl_event::install::before_uninstall"/>
+            <callback type="before-uninstantiate"  proc="ctrl_event::install::before_uninstantiate"/>
         </callbacks>
         <parameters>
         <!-- No version parameters -->

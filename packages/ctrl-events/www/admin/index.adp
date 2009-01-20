@@ -64,7 +64,6 @@
 	<a href="event-ae?event_id=@event_list.event_id@">Edit</a>
 	<a href="event-delete?event_id=@event_list.event_id@">Delete</a>
 	<a href="event-object-list?event_id=@event_list.event_id@">Event Object</a>
-
 	<a href="/ctrl-events/tasks/admin?event_id=@event_list.event_id@">Tasks</a>
 	<a href="event-signin?event_id=@event_list.event_id@">Sign-In</a>
 	
@@ -72,7 +71,6 @@
 	 <if @event_list.rsvp_ok@ eq 0><font color=red></if>
 	 RSVP
 	</a>
-
 	</nobr>
  </td>
  </tr>

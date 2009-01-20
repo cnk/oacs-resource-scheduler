@@ -4,8 +4,11 @@
 -- This package is used by the Digest, Room Reservation, and Calendar Packages
 -- 
 -- @creation-date 04/01/2005
+-- @update-date 08/08/2008 (ported to postgres)
+--
 -- @author avni@ctrl.ucla.edu (AK)
 -- @author kellie@ctrl.ucla.edu (KL)
+
 -- @cvs-id $Id: ctrl-events-tables-create.sql,v 1.1 2006/08/02 22:49:41 avni Exp $
 -- 
 
@@ -18,38 +21,44 @@ create table ctrl_events (
 					constraint ctrl_events_eo_id_fk references acs_objects(object_id),
        repeat_template_id		integer
 					constraint ctrl_events_repeat_event_fk references ctrl_events(event_id),
-       repeat_template_p		char(1) default 'f' 
+       repeat_template_p		boolean default 'f' 
 					constraint ctrl_events_rt_p_nn not null
-					constraint ctrl_events_rt_p_ck check(repeat_template_p in ('t','f')),
 					constraint ctrl_events_repeat_template_ck check ((repeat_template_p='t' and repeat_template_id is null) or repeat_template_p='f'),
-       title				varchar2(1000) not null,
-       speakers				varchar2(4000),
-       start_date			date,
-       end_date				date,
-       all_day_p			char(1) default 'f' 
-					constraint ctrl_events_all_day_p_nn not null
-					constraint ctrl_events_all_day_p_ck check (all_day_p in ('t','f')),
-       location				varchar2(4000),
-       notes				clob,
+       title				varchar(1000) 
+					constraint ctrl_events_title_nn not null,
+       speakers				varchar(4000),
+       start_date			timestamptz,
+       end_date				timestamptz,
+       all_day_p			boolean default 'f' 
+					constraint ctrl_events_all_day_p_nn not null,
+       location				varchar(4000),
+       notes				text,
        capacity				integer,
-       event_image			blob,
-       event_image_width		integer,
-       event_image_height		integer,
-       event_image_file_type		varchar2(100),
-       event_image_caption		varchar2(4000),
-       status			        varchar2(15) default 'scheduled'
+       image_item_id			integer 
+					constraint ctrl_events_image_item_id_fk references cr_items(item_id),
+       -- event_image			blob,
+       --lob				integer
+       --				constraint ctrl_events_lob_fk references lobs(lob_id),
+       --event_image_width		integer,
+       --event_image_height		integer,
+       --event_image_file_type		varchar(100),
+       --event_image_caption		varchar(4000),
+       status			        varchar(15) default 'scheduled'
 					constraint ctrl_events_status_ck check (status in ('cancelled','pending','scheduled')),
-       public_p				char(1) default 't'
-					constraint ctrl_events_public_p_nn not null
-					constraint ctrl_events_public_p_ck check (public_p in ('t','f')),			
-       approved_p			char(1) default 't'
-					constraint ctrl_events_approved_p_nn not null
-					constraint ctrl_events_approved_p_ck check (approved_p in ('t','f')),			
+       public_p				boolean default 't'
+					constraint ctrl_events_public_p_nn not null,
+       approved_p			boolean default 't'
+					constraint ctrl_events_approved_p_nn not null,
        category_id			integer
 					constraint ctrl_event_cat_id_fk references ctrl_categories(category_id),
        package_id			integer
 					constraint ctrl_event_pkg_id_fk references apm_packages(package_id)
 );
+
+-- create index ctrl_events_lob_idx ON ctrl_events(lob);
+
+--create trigger ctrl_events_lob_trig before delete or update or insert
+--on ctrl_events for each row execute procedure on_lob_ref();
 
 comment on table ctrl_events is '
 	This table stores all the events for objects in the system.
@@ -69,14 +78,13 @@ create table ctrl_events_rsvps (
        rsvp_event_id			integer
 					constraint ctrl_events_rsvp_event_id_pk primary key
 					constraint ctrl_events_rsvp_event_id_fk references ctrl_events(event_id)
-					on delete cascade,					
-       rsvp_admin_approval_required_p	char(1) default 'f' constraint ctrl_events_rsvp_admin_p_ck check (rsvp_admin_approval_required_p in ('t','f')),
-       rsvp_registration_start_date	date
+					on delete cascade,
+       rsvp_admin_approval_required_p	boolean default 'f',
+       rsvp_registration_start_date	timestamptz
 					constraint ctrl_events_rsvp_reg_sd_nn not null,
-       rsvp_registration_end_date	date,
-       rsvp_capacity_consideration_p	char(1) default 'f' 
-					constraint ctrl_events_rsvp_capconsi_p_nn not null
-					constraint ctrl_events_rsvp_capconsi_p_ck check(rsvp_capacity_consideration_p in ('t','f')),
+       rsvp_registration_end_date	timestamptz,
+       rsvp_capacity_consideration_p	boolean default 'f' 
+					constraint ctrl_events_rsvp_capconsi_p_nn not null,
        constraint ctrl_events_rsvp_reg_ed_ck check(rsvp_registration_start_date <= rsvp_registration_end_date)
 );
 
@@ -103,20 +111,20 @@ create table ctrl_events_attendees (
 			      constraint ctrl_events_att_rsvp_e_id_nn not null
 			      constraint ctrl_events_att_rsvp_e_id_fk references ctrl_events_rsvps(rsvp_event_id) 
 			      on delete cascade,
-       email		      varchar2(100) 
+       email		      varchar(100) 
 			      constraint ctrl_events_att_email_nn not null,	
-       first_name	      varchar2(100)
+       first_name	      varchar(100)
 			      constraint ctrl_events_att_first_name_nn not null,
-       last_name	      varchar2(100)
+       last_name	      varchar(100)
 			      constraint ctrl_events_att_last_name_nn not null,
-       response_status	      varchar2(15)
+       response_status	      varchar(15)
 			      constraint ctrl_events_att_resp_stat_nn not null
 			      constraint ctrl_events_att_resp_stat_ck check (response_status in ('attending','decline')),
-       approval_status	      varchar2(15)
+       approval_status	      varchar(15)
 			      constraint ctrl_events_att_appvl_stat_nn not null
 			      constraint ctrl_events_att_appvl_stat_ck check (approval_status in ('attending','pending','denied')),
-       signin_id	      varchar2(100),
-       signin_date	      date,
+       signin_id	      varchar(100),
+       signin_date	      timestamptz,
        constraint event_att_event_att_un unique (rsvp_event_id,email)
 );
 
@@ -143,27 +151,27 @@ create table ctrl_events_tasks (
 				constraint ctrl_events_tasks_event_id_nn not null
 				constraint ctrl_events_tasks_event_id_fk references ctrl_events(event_id)
 				on delete cascade,
-       title			varchar2(300)
+       title			varchar(300)
 				constraint ctrl_events_tasks_title_nn not null,
        assigned_by		integer
 				constraint ctrl_events_tasks_assign_by_nn not null
 				constraint ctrl_events_tasks_assign_by_fk references users(user_id),
-       due_date			date,
-       priority			varchar2(10)
+       due_date			timestamptz,
+       priority			varchar(10)
 				constraint ctrl_events_tasks_priority_nn not null
 				constraint ctrl_events_tasks_priority_ck check (priority in ('high', 'medium', 'low')),
-       status			varchar2(15)
+       status			varchar(15)
 				constraint ctrl_events_tasks_status_nn not null
 				constraint ctrl_events_tasks_status_ck check (status in ('open', 'closed')),
        category_id		integer
 				constraint ctrl_events_tasks_category_nn not null
 				constraint ctrl_events_tasks_category_fk references ctrl_categories(category_id),
-       start_date		date,
-       end_date			date,
+       start_date		timestamptz,
+       end_date			timestamptz,
 				constraint ctrl_events_tasks_end_date_ck check (start_date <= end_date),
        percent_completed	integer
 				constraint ctrl_events_tasks_per_comp_ck check (percent_completed >=0 and percent_completed <=100),
-       notes			varchar2(1000)
+       notes			varchar(1000)
 );
 
 create table ctrl_events_notifications (
@@ -171,14 +179,14 @@ create table ctrl_events_notifications (
 				  constraint ctrl_events_note_event_id_nn not null
 				  constraint ctrl_events_note_event_id_fk references ctrl_events(event_id)
 				  on delete cascade,
-       email			  varchar2(100)
+       email			  varchar(100)
 				  constraint ctrl_events_note_email_nn not null,
        notification_category_id	  integer
 				  constraint ctrl_events_note_cat_id_nn not null
 				  constraint ctrl_events_note_cat_id_fk references ctrl_categories(category_id),
-       date_to_send		  date
+       date_to_send		  timestamptz
 				  constraint ctrl_events_note_date_send_nn not null,
-       date_sent		  date,
+       date_sent		  timestamptz,
        constraint ctrl_events_notif_email_pk primary key (event_id, notification_category_id, email)
 );
 
@@ -188,17 +196,17 @@ create table ctrl_events_repetitions (
 					constraint ctrl_events_rep_repeat_e_id_pk primary key
 					constraint ctrl_events_rep_repeat_e_id_fk references ctrl_events(event_id)
 					on delete cascade,
-       frequency_type			varchar2(100)
+       frequency_type			varchar(100)
 					constraint ctrl_events_rep_freq_type_nn not null
 					constraint ctrl_events_rep_freq_type_ck check (frequency_type in ('daily','weekly', 'monthly', 'yearly')),
        frequency			integer
 					constraint ctrl_events_rep_freq_nn not null,
-       specific_day_frequency		varchar2(100) 
+       specific_day_frequency		varchar(100) 
 					constraint ctrl_events_spec_day_freq_ck check (specific_day_frequency in ('first','second','third','fourth','last')),
-       specific_days			varchar2(100),
-       specific_dates_of_month		varchar2(100),					
-       specific_months			varchar2(100),
-       end_date				date,
+       specific_days			varchar(100),
+       specific_dates_of_month		varchar(100),					
+       specific_months			varchar(100),
+       end_date				timestamptz,
        constraint ctrl_events_rep_month_spec_ck check (((specific_dates_of_month is not null or specific_months is not null) 
 		  and specific_day_frequency is null and specific_days is null) or 
 		  (specific_dates_of_month is null and specific_months is null and specific_day_frequency is not null and specific_days is not null))
@@ -237,24 +245,32 @@ create table ctrl_events_categories_map (
 comment on table ctrl_events_categories_map is '
 This table is used to map categories to events. It allows an event to be in multiple categories.';
 
+
 create table ctrl_events_objects (
-       event_object_id		 integer 
+       	event_object_id		 integer 
 				 constraint ctrl_eo_object_id_pk primary key
-				 constraint ctrl_eo_object_id_fk references acs_objects(object_id),
-       name			 varchar2(300) 
+					 constraint ctrl_eo_object_id_fk references acs_objects(object_id),
+       	name			 varchar(300) 
 				 constraint ctrl_eo_name_nn not null,
-       last_name		 varchar2(300),
-       object_type_id		 integer
+        last_name		 varchar(300),
+       	object_type_id		 integer
 				 constraint ctrl_eo_object_type_id_nn not null
 				 constraint ctrl_eo_object_type_id_fk references ctrl_categories(category_id),
-       description		 varchar2(4000),
-       url			 varchar2(1000),
-       image			 blob,
-       image_width		 integer,
-       image_height		 integer,
-       image_file_type		 varchar2(100),
-       constraint ctrl_eo_name_object_type_id_un unique (name, last_name, object_type_id)
+       	description		 varchar(4000),
+       	url			 varchar(1000),
+       	-- image		 blob,
+	lob			 integer
+				 constraint ctrl_eo_lob_fk references lobs(lob_id),
+       	image_width		 integer,
+       	image_height		 integer,
+       	image_file_type		 varchar(100),
+       	constraint ctrl_eo_name_object_type_id_un unique (name, last_name, object_type_id)
 );
+
+create index ctrl_eo_lob_idx ON ctrl_events_objects(lob);
+
+create trigger ctrl_eo_lob_trig before delete or update or insert
+on ctrl_events_objects for each row execute procedure on_lob_ref();
 
 comment on table ctrl_events_objects is '
 	This table stores general objects which can be used by events.
@@ -262,18 +278,17 @@ comment on table ctrl_events_objects is '
 	acs_rels is used to map these objects to events
 ';
 
-
 create table ctrl_events_event_object_map (
-       event_id			integer  
-				constraint ctrl_eeom_event_id_nn not null
-				constraint ctrl_eeom_event_id_fk references ctrl_events(event_id)
-				on delete cascade,
-       event_object_id		integer
-				constraint ctrl_eeom_object_id_nn not null
+       event_id                 integer     
+                                constraint ctrl_eeom_event_id_nn not null   
+                                constraint ctrl_eeom_event_id_fk references ctrl_events(event_id)  
+                                on delete cascade,
+       event_object_id          integer
+                                constraint ctrl_eeom_object_id_nn not null
 				constraint ctrl_eeom_object_id_fk references ctrl_events_objects(event_object_id),
-       tag			varchar2(100) 
-				constraint ctrl_eeom_tag_nn not null,
-       event_object_group_id    integer
+       tag     			varchar(100) 
+		    		constraint ctrl_eeom_tag_nn not null,
+       event_object_group_id    integer 
                                 constraint ctrl_eeom_group_id_nn not null,
        constraint ctrl_eeom_group_id_un unique (event_id, event_object_id, event_object_group_id),
        constraint ctrl_eeom_event_tag_un unique (event_id, tag),

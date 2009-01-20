@@ -8,6 +8,7 @@
 -- @cvs-id $Id: ctrl-events-tables-drop.sql,v 1.1 2006/08/02 22:49:41 avni Exp $
 --
 
+
 drop table ctrl_events_event_object_map;
 drop table ctrl_events_objects;
 drop table ctrl_events_categories_map;

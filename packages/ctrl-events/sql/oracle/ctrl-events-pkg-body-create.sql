@@ -36,6 +36,7 @@ as
 	v_event_id acs_objects.object_id%TYPE;
    begin
 	v_event_id := acs_object.new (
+	  object_id	  => event_id,
 	  creation_date   => creation_date,
 	  creation_user	  => creation_user,
 	  object_type	  => object_type,
@@ -56,13 +57,22 @@ as
    is 
    begin
 	-- AMK temporary	          
-	FOR event in (select event_id from ctrl_events where repeat_template_id = del.event_id) LOOP
-		ctrl_event.del(event.event_id);
+	FOR event_rec in (select event_id from ctrl_events where repeat_template_id = del.event_id) LOOP
+		ctrl_event.del(event_rec.event_id);
+	END LOOP;
+
+	FOR event_object_rec in (select event_object_id from ctrl_events_event_object_map where event_id = p_event_id LOOP
+		ctrl_event_object.del(event_object_rec.event_object_id);
 	END LOOP;
 
 	delete from ctrl_events_repetitions where repeat_template_id = del.event_id;
+	delete from ctrl_events_notifications where event_id = del.event_id;
+	delete from ctrl_events_tasks where event_id = del.event_id;
+	delete from ctrl_events_attendees where rsvp_event_id = del.event_id;
+	delete from ctrl_events_rsvps where rsvp_event_id = del.event_id;
 	delete from ctrl_events where event_id = del.event_id;
 	acs_object.del(event_id);
+
    end del;
 end ctrl_event;
 / 

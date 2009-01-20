@@ -70,7 +70,7 @@ set error_p [catch {
     # Event constraint
     # --------------------------------------------------------------------------------------------------
     if [exists_and_not_null event_id] {
-	set event_tag ", tag, event_object_group_id "
+	set event_tag ",tag, event_object_group_id "
 	set event_table ", ctrl_events_event_object_map e "
 	set event_table_constraint " and e.event_object_id = o.event_object_id and e.event_id = $event_id " 
     } else {

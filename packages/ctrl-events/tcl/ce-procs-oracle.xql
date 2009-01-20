@@ -1,13 +1,30 @@
 <?xml version="1.0"?>
 <queryset>
 
-<fullquery name="ctrl_event::exists_p.exists_p">
-	<querytext>
-		select count(*)
-		from   ctrl_events
-		where  event_id = :event_id
-	</querytext>
+<!-- START event::get.get -->
+<fullquery name="ctrl_event::get.get">
+ <querytext>
+	select	event_object_id,
+		repeat_template_id,
+		repeat_template_p,
+		title,
+		speakers,
+		to_char(start_date,$date_format) as start_date,
+                to_char(end_date,$date_format) as end_date,
+		to_char(start_date, 'Mon DD, YYYY ') || to_char(start_date,'FMHH12') || to_char(start_date,':MI AM') as pretty_start_date,
+                to_char(end_date, 'Mon DD, YYYY ') || to_char(end_date,'FMHH12') || to_char(end_date,':MI AM') as pretty_end_date,
+		all_day_p,
+		location,	
+		notes,
+		capacity,
+		ctrl_category.name(category_id) as category_name,
+		acs_object.name(event_object_id) as event_object_name,
+		image_item_id
+	  from	ctrl_events
+	 where	event_id = :event_id
+ </querytext>
 </fullquery>
+<!-- END event::get.get -->
 
 <!-- START NEW EVENT -->
 <fullquery name="ctrl_event::new.add">
@@ -26,7 +43,6 @@
 				location			=> :location,
 				capacity			=> :capacity,
 				category_id			=> :category_id,
-				event_image_caption => :event_image_caption,
 				package_id		    => :package_id,
 				context_id			=> :context_id
 			);
@@ -45,24 +61,6 @@
 <!-- END NEW EVENT -->
 
 <!-- START UPDATING EVENT -->
-<fullquery name= "ctrl_event::update.update">
-	<querytext>
-		update	ctrl_events
-		   set	event_id			= :event_id,
-				event_object_id		= :event_object_id,
-				repeat_template_p	= :repeat_template_p,
-				title				= :title,
-				speakers			= :speakers,
-				start_date			= $start_date,
-				end_date			= $end_date,
-				all_day_p			= :all_day_p,
-				location			= :location,
-				capacity			= :capacity,
-				category_id			= :category_id,
-				event_image_caption = :event_image_caption
-		where	event_id	= :event_id
-	</querytext>
-</fullquery>
 
 <fullquery name="ctrl_event::update.notes">
 	<querytext>
@@ -129,14 +127,6 @@
 </fullquery>
 
 <!-- END DELETING EVENT -->
-
-<fullquery name="ctrl_event::update_recurrences.get_update_date">
-                <querytext>
-                        select to_char(start_date, 'YYYY/MM/DD HH12:MI AM')
-                               from ctrl_events
-                        where event_id=:event_id
-                </querytext>
-</fullquery>
 
 <fullquery name= "ctrl_event::update_recurrences.ctrl_events_photo_delete">
 	<querytext>

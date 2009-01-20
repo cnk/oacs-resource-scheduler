@@ -9,34 +9,42 @@ ad_library {
 
 namespace eval ctrl_event_image {}
 
-ad_proc -public ctrl_event_image::image {
+ad_proc -public ctrl_event_image::new {
     {-event_id:required}
     {-event_image:required}
+    {-event_image_caption:required}
 } {
     Upload image into db
 } {
-    if {![empty_string_p $event_image]} {
-	set content_tmpfilename [ns_queryget event_image.tmpfile]		
-	set event_image_file_type [ns_guesstype $event_image]
-	set extension [string tolower [file extension $event_image]]
-            
-	#determining the dimensions of the image                                                                                          
-	if {[string equal $extension "jpeg"] || [string equal $extension ".jpg"]} {
-	    catch { set dimensions [ns_jpegsize $content_tmpfilename] }
-	} elseif {[string equal $extension ".gif"]} {
-	    catch { set dimensions [ns_gifsize $content_tmpfilename]}
-	}
 
-	if {[exists_and_not_null dimensions]} {
-	    set event_image_width [lindex $dimensions 0]
-	    set event_image_height [lindex $dimensions 1]
-	} else {
-            set event_image_width ""                
-	    set event_image_height ""
-	}
-	 
-	db_dml image_upload {} -blob_files [list $content_tmpfilename]
+    if {![empty_string_p $event_image]} {
+	set mime_type [ns_guesstype $event_image]
+	set content_tmpfilename [ns_queryget event_image.tmpfile]		
+	set item_id [image::new -name "Image for Event ID: $event_id" -parent_id $event_id -tmp_filename $content_tmpfilename \
+			 -mime_type $mime_type -description $event_image_caption]
+	return $item_id
     }
+    return 0
+}
+
+ad_proc -public ctrl_event_image::update {
+    {-image_item_id:required}
+    {-event_image:required}
+    {-event_image_caption:required}
+} {
+    Adds new revision to image in db
+} {
+    if {![empty_string_p $event_image]} {
+	set mime_type [ns_guesstype $event_image]
+	set extension [string tolower [file extension $event_image]]
+	set content_tmpfilename [ns_queryget event_image.tmpfile]		
+	foreach {width height} [image::get_file_dimensions -filename $content_tmpfilename -mime_type $mime_type] {}
+
+	content::revision::new -item_id $image_item_id -tmp_filename $content_tmpfilename -description $event_image_caption \
+	    -is_live "t" -description $event_image_caption \
+	    -attributes [list [list width $width] [list height $height]]
+    }
+    return
 }
 
 ad_proc -public ctrl_event_image::ctrl_event_object_image {

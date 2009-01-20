@@ -9,7 +9,7 @@
 					c.name as object_type, o.description, o.url $event_tag
     				from 	ctrl_events_objects o, 
 					acs_objects a, 
-					ctrl_categories c
+					categories c
 					$event_table
 				where 	a.object_id  = o.event_object_id 
 				and 	a.context_id = :package_id
@@ -28,7 +28,7 @@
 			select 	count(*) as total_items
 			from 	ctrl_events_objects o, 
 				acs_objects a,
-				ctrl_categories c		
+				categories c		
 				$event_table		
 			where 	a.object_id = o.event_object_id
 			and 	a.context_id = :package_id

@@ -490,10 +490,17 @@ ad_proc -public ctrl_event::repetition::daily {
 
 	set frequency_param $frequency	
 
+	ns_returnnotice 200 $start_date
+	ad_script_abrot
+
 	set repeat_end_date "[ctrl_event::date_util::parse_date -date_var $repeat_end_date] 23 59"
 	set event_duration [ctrl_event::date_util::get_event_duration -start_date $start_date -end_date $end_date] 
 
 	set new_start_date [ctrl_event::date_util::parse_date -date_var $start_date]
+	ns_returnnotice 200 $new_start_date
+	ad_script_abort
+
+
 	set new_end_date [ctrl_event::date_util::get_new_day -date_param $new_start_date -frequency_param $event_duration]
 
 	while {[template::util::date::compare $new_start_date $repeat_end_date] != 1} { 

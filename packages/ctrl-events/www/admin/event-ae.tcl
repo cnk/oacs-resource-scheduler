@@ -7,7 +7,7 @@ ad_page_contract {
 	@creation-date:	05/06/2005
 	@cvs-id			$Id: event-ae.tcl,v 1.2 2006/08/08 00:53:53 avni Exp $
 } {
-	{event_id:optional,integer}
+	{event_id:optional,naturalnum}
 	{delete_all_future_image:optional}
 }
 
@@ -120,7 +120,8 @@ ad_form -name "add_edit_event" -method post -html {enctype multipart/form-data} 
 	set repeat_template_id ""
 	set monthly_option ""
 
-	set fail_p [catch {
+	set failed_p 0
+	db_transaction {
 		# INSERT NEW EVENT ##################################################################################################################
 		set event_id [ctrl_event::new -event_id $event_id \
 									  -event_object_id $event_object_id \
@@ -157,16 +158,20 @@ ad_form -name "add_edit_event" -method post -html {enctype multipart/form-data} 
 								   -event_image $event_image -event_image_caption $event_image_caption -category_id $category_id \
 								   -context_id $context_id -package_id $package_id -add_event_p "t"]
 		}
-	} errmsg]
-		
-	if {$fail_p != 0} {
+	} on_error {
+		set failed_p 1
+		db_abort_transaction
+	}
+
+	if {$failed_p != 0} {
 		ad_return_error "Fail" $errmsg
-		return
+		ad_script_abort
 	}
 
 } -edit_data {
 
-	set fail_p [catch {
+	set failed_p 0
+	db_transaction {
 
 		ctrl_event::get -event_id $event_id -array event_info
 		
@@ -208,11 +213,14 @@ ad_form -name "add_edit_event" -method post -html {enctype multipart/form-data} 
 				                           -repeat_template_id $repeat_template_id 
 		}
 		
-	} errmsg]
+	} on_error {
+		set failed_p 1
+		db_abort_transaction 
+	}
 
-	if {$fail_p != 0} {
+	if {$failed_p != 0} {
 		ad_return_error "Fail" $errmsg
-		return
+		ad_script_abort
 	}
 } -after_submit {
 

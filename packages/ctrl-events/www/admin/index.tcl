@@ -60,8 +60,12 @@ if {![exists_and_not_null order_dir] } {
 db_1row sql_total_items {}
 
 set page_list [ctrl_procs::util::pagination -total_items $total_items -current_page $current_page -row_num $row_num -path "index?order_by=$order_by&order_dir=$order_dir"]
+# Oracle wants an upper and lower bounds
 set lower_bound [lindex $page_list 0]
 set upper_bound [lindex $page_list 1]
+# Postgres wants a limit and offset (i.e. lower_bound)
+set row_offset [expr $lower_bound - 1]
+set row_limit [expr $upper_bound - $lower_bound]
 set pagination_nav_bar [lindex $page_list 2]
 
 db_multirow -extend {rsvp_ok} event_list event_list_query {} {

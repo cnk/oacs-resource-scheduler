@@ -1,12 +1,15 @@
-# /packages/ctrl-event/tcl/ce-category-procs.tcl
+# /packages/ctrl-events/tcl/ce-category-procs.tcl
 
 ad_library {
 
     CTRL EVENTS Wrapper Category Procs
 
     @author avni@ctrl.ucla.edu (AK)
-    @cvs-id $Id: ce-category-procs.tcl,v 1.2 2006/08/08 00:53:11 avni Exp $
+
     @creation-date 2005-12-14
+    @update-date 2008-09-13 (ported to postgres by avni@avni.net (AK))
+    @cvs-id $Id: ce-category-procs.tcl,v 1.2 2006/08/08 00:53:11 avni Exp $
+
 }
 
 namespace eval ctrl_event::category {}
@@ -132,3 +135,52 @@ ad_proc -public ctrl_event::category::option_list {
 	return [ctrl::category::option_list -path "${root_path}${path}" -disable_spacing 1]
     }
 }
+
+ad_proc -public ctrl_event::category::find {
+    {-path:required}
+    {-package_id ""}
+} {
+    Returns the id of the category path given.
+    If path doesn't exist returns 0
+} {
+    if {[empty_string_p $package_id]} {
+	set package_id [site_node_apm_integration::get_child_package_id -package_id [ad_conn subsite_id] -package_key ctrl-events]
+    }
+
+    set root_path [string trim [ctrl_event::category::root_info -info path -package_id $package_id]]
+    set path [split "$root_path//$path" "//"]
+    return [ctrl::category::find -path $path]
+}
+
+ad_proc ctrl_event::category::exists_p {
+    category_id
+} {
+    Returns 1 if passed in category id exists
+    Returns 0 if it doesn't
+} {
+    return [db_string events_category_exists_p {} -default 0]
+}
+
+
+ad_proc ctrl_event::category::get_category_options {
+    {-context_id ""}
+    {-top_level_category "All Events"}
+} {
+    Returns a select optionlist of the current event categories
+} {
+    set parent_category_name "CTRL Events"
+    return "[list "\"$top_level_category\" \"\""] [db_list_of_lists events_category_options {}]"
+}
+
+ad_proc ctrl_event::category::get_info {
+    {-unique_field "category_id"}
+    unique_value
+    column_name_to_retrieve
+} {
+    Returns the value of the column_name requested
+    of the category_id passed in
+} {
+    return [db_string events_category_info {} -default ""]
+}
+
+

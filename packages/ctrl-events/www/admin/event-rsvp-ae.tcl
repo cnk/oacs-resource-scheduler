@@ -43,6 +43,7 @@ ad_form -name event_rsvp_ae -form {
     }
     set context_bar [ad_context_bar $page_title]
 } -on_submit {
+
     set failed_p 0
     db_transaction {
      set rsvp_exists_p [db_string rsvp_exists_p {} -default 0]
@@ -62,10 +63,12 @@ ad_form -name event_rsvp_ae -form {
 	set failed_p 1
 	db_abort_transaction
     }
+
     if $failed_p {
 	ad_return_error "Unable to add RSVP for Event" "System was unable to add event RSVP due to <p> <pre> $errmsg </pre>"
 	ad_script_abort
     }
+
 } -after_submit {
     ad_returnredirect "${package_url}admin/"
     ad_script_abort

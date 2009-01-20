@@ -26,6 +26,7 @@ as
 	v_event_object_id acs_objects.object_id%TYPE;
    begin
 	v_event_object_id := acs_object.new (
+	 object_id  	=> event_object_id,
 	 creation_date	=> creation_date,
 	 creation_user 	=> creation_user,
 	 object_type   	=> object_type,
@@ -46,6 +47,8 @@ as
    )
    is 
    begin 
+	delete from ctrl_events_event_object_map where event_object_id = event_object_id;
+	delete from ctrl_events_objects where event_object_id = event_object_id;
 	acs_object.del(event_object_id);
    end del;
 end ctrl_event_object;

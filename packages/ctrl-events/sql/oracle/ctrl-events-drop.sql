@@ -8,6 +8,14 @@
 -- @cvs-id $Id: ctrl-events-drop.sql,v 1.1 2006/08/02 22:49:41 avni Exp $
 --
 
+drop package ctrl_event_object;
+begin 
+	acs_object_type.drop_type('ctrl_event_object');
+	commit;
+end;
+/
+show errors;
+
 begin
       FOR d in (select object_id from acs_objects where object_type = 'ctrl_event') LOOP
 	  ctrl_events.del(d.object_id);
